@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yu2.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="名词解释根目录说明12345678910111213141516171819202122tree -L 1.├── bin -&gt; usr&#x2F;bin # 英语binary的缩写，表示”二进制文件“，bin目录包含了会被所有用户使用的可执行程序├── boot # 英语boot表示”启动“，boot目录包含与Linux启动密切相关的文件├── dev # 英语device的缩写， 表示”设备“，包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux命令笔记">
+<meta property="og:url" content="http://yu2.fun/2021/08/23/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="鱼非鱼">
+<meta property="og:description" content="名词解释根目录说明12345678910111213141516171819202122tree -L 1.├── bin -&gt; usr&#x2F;bin # 英语binary的缩写，表示”二进制文件“，bin目录包含了会被所有用户使用的可执行程序├── boot # 英语boot表示”启动“，boot目录包含与Linux启动密切相关的文件├── dev # 英语device的缩写， 表示”设备“，包">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192056760-1895579118.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192120487-1104904718.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192131002-1760923239.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192141432-1931828534.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192235317-1089848258.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192326501-768802358.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192338099-1198324960.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113162940937-800544583.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113162954350-872477573.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163009147-1582429379.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163023510-129166322.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163033661-1035877853.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163246721-603538726.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163302260-2058948948.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163354606-1926662430.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163318398-909145326.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192432206-2090205304.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192449372-1359353194.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192510960-216870422.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192526015-459912132.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192624512-933932172.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192640644-654786465.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192648748-773199929.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192703155-1546702011.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192711615-1301314245.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192719035-652284179.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192733605-750777743.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192748215-1853256154.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192836135-1810220143.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192900483-1086815908.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192913059-830902695.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192923125-55369229.png">
+<meta property="og:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192201564-1046228339.png">
+<meta property="article:published_time" content="2021-08-23T04:57:58.000Z">
+<meta property="article:modified_time" content="2021-10-15T03:51:00.369Z">
+<meta property="article:author" content="yrain">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yu2.fun/images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192056760-1895579118.png">
+
+<link rel="canonical" href="http://yu2.fun/2021/08/23/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux命令笔记 | 鱼非鱼</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">鱼非鱼</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yu2.fun/2021/08/23/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/y.JPG">
+      <meta itemprop="name" content="yrain">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鱼非鱼">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux命令笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-23 12:57:58" itemprop="dateCreated datePublished" datetime="2021-08-23T12:57:58+08:00">2021-08-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-15 11:51:00" itemprop="dateModified" datetime="2021-10-15T11:51:00+08:00">2021-10-15</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>35k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><h3 id="根目录说明"><a href="#根目录说明" class="headerlink" title="根目录说明"></a>根目录说明</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">tree -L 1</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">├── bin -&gt; usr/bin # 英语binary的缩写，表示”二进制文件“，bin目录包含了会被所有用户使用的可执行程序</span><br><span class="line">├── boot # 英语boot表示”启动“，boot目录包含与Linux启动密切相关的文件</span><br><span class="line">├── dev # 英语device的缩写， 表示”设备“，包含外设，它里面的子目录，每一个对应一个外设</span><br><span class="line">├── etc # etc目录包含系统的配置文件，按照原始Unix的说法，这下面都是一堆零零碎碎的东西，就叫etc好了，是历史遗留问题</span><br><span class="line">├── home # 英语home表示”家“，用户的私人目录，在home目录中，我们放置私人的文件</span><br><span class="line">├── lib -&gt; usr/lib # 英语library的缩写，表示”库“,目录包含被程序所调用的库文件，以.so结尾的文件</span><br><span class="line">├── lib64 -&gt; usr/lib64</span><br><span class="line">├── media # 英语media表示”媒体“，可移动的外设(USB盘，SD卡，DVD，光盘等)插入电脑时可以让我们通过media的子目录来访问这些外设的内容</span><br><span class="line">├── mnt # mnt是英语mount的缩写，表示”挂载“，有点类似media目录，但一般用于临时挂载一些装置</span><br><span class="line">├── opt # 英语 optional application software package的缩写，表示”可选的软件包“，用于安装多数第三方软件和插件</span><br><span class="line">├── proc</span><br><span class="line">├── root</span><br><span class="line">├── run</span><br><span class="line">├── sbin -&gt; usr/sbin # 英语system binary的缩写， 表示”系统二进制文件“ ，包含系统级的重要可执行程序</span><br><span class="line">├── srv # 英语service的缩写，表示”服务“，包含一些网络服务启动之后所需要取用的数据</span><br><span class="line">├── sys</span><br><span class="line">├── tmp # 英语temporary的缩写，表示”临时的“，普通用户和程序存放临时文件的地方</span><br><span class="line">├── usr # 是英语Unix Software Resource的缩写，表示”Unix操作系统软件资源“，目录里安装了大部分用户需要调用的程序</span><br><span class="line">└── var # 英语variable的缩写，表示”动态的，可变的“，var通常包含程序的数据，比如log(日志)文件，记录电脑了发生了什么事</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h3><p>所谓的<code>挂载</code>就是利用一个目录当成进入点，将磁盘分区的数据放置在该目录下；也就是说进入该目录就可以读取该分区的意思。这个操作我们称为<code>挂载</code>，那个进入点的目录我们称为<code>挂载点</code>。</p>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>当谈到命令时，我们实际上指的是<code>shell</code>。<code>shell是一个接收由键盘输入的命令，并将其传递给操作系统来执行的程序</code>。几乎所有的Linux发行版都提供shell程序，该程序来自于称之为bash的GNU项目。bash是Bourne Again Shell的首字母缩写，Bourne Again Shell基于这样一个事实，即bash是sh的增强版本，而sh是最初的UNIX shell程序，由Steve Bourne编写。</p>
+<h3 id="终端"><a href="#终端" class="headerlink" title="终端"></a>终端</h3><p><code>当使用图形用户界面时，需要另一种叫做终端仿真器(terminal emulator)的程序与shell进行交互。</code>如果我们仔细查看桌面菜单，那么很可能会找到一个款终端仿真器。在KDE环境下使用的是konsole,而在GNOME环境下使用的是gonme-terminal，但在桌面菜单上很可能将它们简单地统称为<code>终端</code>。在Linux系统中，还有许多其他的终端仿真器可以使用，但是它们基本上都做同样的事情:<code>让用户访问shell</code>。</p>
+<h2 id="硬件相关"><a href="#硬件相关" class="headerlink" title="硬件相关"></a>硬件相关</h2><h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>查看当前主机名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br></pre></td></tr></table></figure>
+
+<p>临时修改主机名:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname new_name(新主机名)</span><br></pre></td></tr></table></figure>
+
+<p>上面的修改方式属于临时修改，系统重启后失效，如果想要永久性修改主机名，那么就需要修改配置文件</p>
+<ul>
+<li>  在CentOS6中，需要修改 <code>/etc/sysconfig/network</code>文件</li>
+<li>  在CentOS7中，需要修改 <code>/etc/hostname</code>文件</li>
+</ul>
+<h3 id="查看CentOS版本"><a href="#查看CentOS版本" class="headerlink" title="查看CentOS版本"></a>查看CentOS版本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看CPU总核数"><a href="#查看CPU总核数" class="headerlink" title="查看CPU总核数"></a>查看CPU总核数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 表示一颗CPU四核</span><br><span class="line">grep processor /proc/cpuinfo |wc -l</span><br><span class="line">grep -c processor /proc/cpuinfo</span><br></pre></td></tr></table></figure>
+
+<h3 id="校正CentOS7时间"><a href="#校正CentOS7时间" class="headerlink" title="校正CentOS7时间"></a>校正CentOS7时间</h3><p>GPS系统中有两种时间区分，UTC就0时区的时间，CST为本地时间，如北京为早上八点（东八区），UTC时间比北京时晚八小时;<br><strong>CST</strong>：Central Standard Time，UTC+8:00 中央标准时间<br><strong>UTC</strong>：Universal Time Coordinated 世界协调时间</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192056760-1895579118.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 安装ntp软件包</span><br><span class="line">sudo yum -y install ntp</span><br><span class="line"></span><br><span class="line"># 设置ntp开机自启</span><br><span class="line">systemctl enable ntpd.service</span><br><span class="line"></span><br><span class="line"># 启动ntp服务</span><br><span class="line">sudo service ntpd.service restart</span><br></pre></td></tr></table></figure>
+
+<p>如果需要配置CTS时间，需要创建如下软链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<p>如果需要配置UTC时间，需要创建如下软链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -sf /usr/share/zoneinfo/Universal /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改文件最大打开数"><a href="#修改文件最大打开数" class="headerlink" title="修改文件最大打开数"></a>修改文件最大打开数</h3><p>linux修改文件最大打开数量的方法，默认情况下是1024的。</p>
+<p>我们可以使用 <code>ulimit -n</code>命令查看</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192120487-1104904718.png"></p>
+<p>如果我们想临时修改，可以使用 <code>ulimit -n 数量</code>来修改，不过<code>系统重启后修改会丢失</code></p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192131002-1760923239.png"></p>
+<p>如果想永久修改，需要修改/etc/security/limits.conf文件</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192141432-1931828534.png"></p>
+<h3 id="修改系统端口最大监听队列的长度"><a href="#修改系统端口最大监听队列的长度" class="headerlink" title="修改系统端口最大监听队列的长度"></a>修改系统端口最大监听队列的长度</h3><p>在linux中，/proc/sys/net/core/somaxconn这个参数，定义了系统中每一个端口最大的监听队列的长度,这是个全局的参数,默认值为128。</p>
+<p>somaxconn限制了接收新 TCP 连接侦听队列的大小。对于一个经常处理新连接的高负载 web服务环境来说，默认的 128 太小了。大多数环境这个值建议增加到 1024 或者更多。 服务进程会自己限制侦听队列的大小(例如 sendmail(8) 或者 Apache)，常常在它们的配置文件中有设置队列大小的选项。大的侦听队列对防止拒绝服务 DoS 攻击也会有所帮助。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line"># 添加</span><br><span class="line">net.core.somaxconn = 1024</span><br></pre></td></tr></table></figure>
+
+<p>然后执行sysctl -p使配置生效。</p>
+<h3 id="修改内核内存分配策略"><a href="#修改内核内存分配策略" class="headerlink" title="修改内核内存分配策略"></a>修改内核内存分配策略</h3><p>overcommit_memory是一个内核对内存分配的一种策略。 具体可见/proc/sys/vm/overcommit_memory下的值</p>
+<p>overcommit_memory取值又三种分别为0，1，2</p>
+<ul>
+<li>  overcommit_memory=0，表示内核将检查是否有足够的可用内存供应用进程使用；如果有足够的可用内存，内存申请允许；否则，内存申请失败，并把错误返回给应用进程。</li>
+<li>  overcommit_memory=1，表示内核允许分配所有的物理内存，而不管当前的内存状态如何。</li>
+<li>  overcommit_memory=2， 表示内核允许分配超过所有物理内存和交换空间总和的内存。</li>
+</ul>
+<p>当我们启动redis服务时，会报警告，翻译为【“警告超限”内存设置为0！在内存不足的情况下，后台保存可能会失败。若要解决此问题，请将“vm.overcommit_memory=1”添加到/etc/sysctl.conf，然后重新启动或运行命令“sysctl vm.overcommit_memory=1”以使其生效。】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line"># 添加</span><br><span class="line">vm.overcommit_memory = 1</span><br></pre></td></tr></table></figure>
+
+<p>然后执行sysctl -p使配置生效。</p>
+<h2 id="Linux文件操作"><a href="#Linux文件操作" class="headerlink" title="Linux文件操作"></a>Linux文件操作</h2><h3 id="实用快捷键"><a href="#实用快捷键" class="headerlink" title="实用快捷键"></a>实用快捷键</h3><p>Ctrl+L：清理终端的内容，就是清屏的作用。同clear命令</p>
+<p>Ctrl+D：给终端传递EOF(End Of File，文件结束符)</p>
+<p>Shift+PgUp：用于向上滚屏，与鼠标的滚轮向上滚屏是一个效果</p>
+<p>Shift+PgDn：用于向下滚屏，与鼠标的滚轮向下滚屏是一个效果</p>
+<p>Ctrl+A：光标跳到一行命令的开头。Home键有相同的效果</p>
+<p>Ctr+E：光标跳到一行命令的结尾。End键具有相同的效果</p>
+<p>Ctrl+U：删除所有光标左侧的命令字符</p>
+<p>Ctrl+K：删除所有在光标右侧的命令字符</p>
+<p>Ctrl+W：删除光标左侧的一个”单词“</p>
+<p>Ctrl+Y：粘贴，用Ctrl+U，Ctrl+K</p>
+<h3 id="locate：快速查找"><a href="#locate：快速查找" class="headerlink" title="locate：快速查找"></a>locate：快速查找</h3><p><code>locate</code>命令用于定位要查找的文件，而且此命令很快，”locate“是英语”定位“的意思</p>
+<p>用法：</p>
+<p>终端会列出所有包含了search_content的文件和目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locate search_content</span><br></pre></td></tr></table></figure>
+
+<p>在使用locate命令查找文件时，大家可能会遇到这样的问题</p>
+<p>我刚创建的文件，为什么用locate命令查找不到呢？</p>
+<p>这正好是locate命令的缺陷，locate命令不会对你实际的整个硬盘进行查找，而是在文件的数据库里查找记录，locate命令的原理如下图所示</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192235317-1089848258.png"></p>
+<p>对于刚创建不就的文件，因为它们还没有被收录进文件数据库，因此locate命令就找不到其索引，自然就不会反悔任何结果</p>
+<p>linux系统一般每天会更新一次文件数据库，因此，只要你隔24小时再用locate查找，应该就能找到你刚创建的文件了，但是，你可能不想等这么久，因此也提供了updatedb命令强制系统立即更新文件数据库，updatedb命令只能由root用户执行，这个命令执行需要一点时间，一旦执行成功，就可以使用locate命令查找刚刚创建的文件了，locate命令会列出所有在文件数据库中找到的内容，有时候结果太多了，太繁杂了，而且locate命令还不能找到一天之内创建的文件，所以系统提供了另一个查找的命令<code>find</code></p>
+<h3 id="find：深入查找"><a href="#find：深入查找" class="headerlink" title="find：深入查找"></a>find：深入查找</h3><p><code>find</code>命令是查找文件的利器，find是英语”找到“的意思，而且它可以让我们对每个找到的文件做后续的操作，与locate命令不同，find命令不会在文件数据库中查找文件的记录，而是遍历你的实际硬盘</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"># 与locate命令不同的是，find命令只会查找完全符合名字的文件</span><br><span class="line">find 查找目录(默认当前目录) -name &quot;文件名&quot;</span><br><span class="line"></span><br><span class="line"># 不过也可以用通配符 *来匹配多个名称</span><br><span class="line"># 在/var/log目录下查找以syslog开头的文件</span><br><span class="line">find /var/log -name &quot;syslog*&quot;</span><br><span class="line"></span><br><span class="line"># 根据文件大小查找</span><br><span class="line"># 查找/var/log中大小超过10M的文件</span><br><span class="line"># -size：size指定查找文件的大小(M兆，K千字节，G千兆字节)</span><br><span class="line">find /var/log -size +10M</span><br><span class="line"></span><br><span class="line"># 查找小于50M的</span><br><span class="line">find /var/log -size -50M</span><br><span class="line"></span><br><span class="line"># 查找等于20M的</span><br><span class="line">find /var/log -size 20M</span><br><span class="line"></span><br><span class="line"># 根据文件最近访问时间查找</span><br><span class="line"># -atime参数：atime是access和time的缩写，表示访问时间</span><br><span class="line"># -atime参数后面紧跟的-7表示7天之内，减号的作用表示小于</span><br><span class="line">find /var/log -name &quot;*.txt&quot; -atime -7</span><br><span class="line"></span><br><span class="line"># 仅查找目录或文件</span><br><span class="line"># -type d：只查找目录类型。d是directory的首字母，表示”目录“</span><br><span class="line"># -type f：只查找文件类型。f是file的首字母，表示“文件”</span><br><span class="line"># 如果不用-type参数指定类型，那么find命令默认是查找目录和文件</span><br><span class="line">find /var/log -name &quot;file&quot; -type d</span><br><span class="line"></span><br><span class="line"># 删除查找到的文件</span><br><span class="line"># -delete参数：</span><br><span class="line">find /var/log -name &quot;*.jpg&quot; -delete</span><br><span class="line"></span><br><span class="line"># 调用命令</span><br><span class="line"># -exec参数：使用-exec参数，可以后接一个命令，对每个查找到的文件进行操作</span><br><span class="line"># exec是execute的缩写，是英语“执行”的意思</span><br><span class="line"># 假如要将/var/log目录下的所有查找到的txt文件的访问权限都改为600</span><br><span class="line">find /var/log -name &quot;*.txt&quot; -exec chmod 600 &#123;&#125;\;</span><br><span class="line"># 你可以将-exec参数换成-ok参数，用法一样，只不过-ok参数会对每一个查找到的文件都确认提示</span><br></pre></td></tr></table></figure>
+
+<h3 id="ls：列出文件和目录"><a href="#ls：列出文件和目录" class="headerlink" title="ls：列出文件和目录"></a>ls：列出文件和目录</h3><p><code>ls</code>是list的缩写，是英语“列出”的意思，用于列出文件和目录</p>
+<p>ls -a：列出所有的目录和文件，包括隐藏的，包含.和..</p>
+<p>ls -A：列出所有的目录和文件，包括隐藏的，不包含.和..</p>
+<p>ls -l：列出一个显示文件和目录的详细信息的列表</p>
+<p>ls -lh：h是human readable的缩写，表示“适合人类阅读的”</p>
+<p>ls -lt：t是time的缩写，表示时间，按文件最近一次修改时间排序</p>
+<h3 id="du：显示目录包含的文件大小"><a href="#du：显示目录包含的文件大小" class="headerlink" title="du：显示目录包含的文件大小"></a>du：显示目录包含的文件大小</h3><p><code>du</code>是英语disk usage的缩写，表示“磁盘使用/占用”，du命令可以让我们知道文件和目录所占的空间大小</p>
+<p>相比ls -l命令，du命令统计的才是真正的文件大小</p>
+<p>du命令会深入遍历每个目录的子目录，统计所有文件的大小</p>
+<p>du -h：以适合人类阅读的方式展示</p>
+<p>默认情况下，du命令只显示目录的大小，如果加上-a参数，则会显示目录和文件的大小</p>
+<p>du -s：只显示统计大小</p>
+<p>du -sh：显示统计大小(以适合人类阅读的方式)</p>
+<h3 id="cat：显示文件内容"><a href="#cat：显示文件内容" class="headerlink" title="cat：显示文件内容"></a>cat：显示文件内容</h3><p><code>cat</code>命令可以一次性在终端中显示文件的所有内容，cat是concatenate的缩写，表示“连接/串联”</p>
+<p>cat -n：显示文件内容时带上行号</p>
+<p><code>适合文件内容比较少的文件</code>如果文件比较大，更适合用less命令</p>
+<h3 id="less：显示文件内容"><a href="#less：显示文件内容" class="headerlink" title="less：显示文件内容"></a>less：显示文件内容</h3><p>和cat命令最大的区别：less会一页一页的显示文件内容，还有一个more命令，more是“更多”，less是“更少”</p>
+<p>more命令和less命令功能类似，more没有less那么强大，比如more命令不能往后翻页，只能往前</p>
+<p>less命令中最基本最常用的快捷键</p>
+<p>空格键：文件内容读取下一个终端屏幕的行数，相当于前进一个屏幕(页)，与键盘上的PageDown(下一页)效果一样</p>
+<p>回车键：读取下一行文件内容，也就是前进一行</p>
+<p>d键：前进半页(半个屏幕)</p>
+<p>b键：后退一页。与键盘上的PageUp(上一页)效果一样</p>
+<p>y键：后退一行。与键盘上的向上效果是一样的</p>
+<p>u键：后退半页(半个屏幕)</p>
+<p>q键：停止读取文件，终止less命令</p>
+<p>=键：显示你在文件的什么位置，会显示当前页面的内容是文件中第几行到第几行，整个文件所含行数，所含字符数</p>
+<p>h键：显示帮助文档。按q键退出帮助文档</p>
+<p>/：进入搜索模式，在斜杠后面输入你要搜索的文件，按下回车键，就会把所有符合的结果都标识出来，要在搜索所得结果中跳转，可以按n键，跳到下一个符合项目，按N键跳到上一个符合项目</p>
+<h3 id="head：显示文件的开头"><a href="#head：显示文件的开头" class="headerlink" title="head：显示文件的开头"></a>head：显示文件的开头</h3><p><code>head</code>在英语中是“头部”的意思，顾名思义，这个命令用于显示文件的开头，默认情况下，head会显示文件的头10行</p>
+<p>head -n 数字：指定显示的行数</p>
+<h3 id="tail：显示文件的结尾"><a href="#tail：显示文件的结尾" class="headerlink" title="tail：显示文件的结尾"></a>tail：显示文件的结尾</h3><p><code>tail</code>在英语中是“尾部”的意思，顾名思义，这个命令用于显示文件的结尾，默认情况下，tail会显示文件结尾的最后10行内容</p>
+<p>tail -n 数字：指定显示的行数</p>
+<p>tail命令还可以配合-f参数来实时追踪文件的更新，可以用快捷键Ctrl+c来终止tail -f命令</p>
+<p>默认地，tail -f会每过1秒检查一下文件是否有新内容</p>
+<p>可以指定间隔检查的秒数，用-s参数：tail -f -s 4 文件名</p>
+<h3 id="touch：创建一个空白文件"><a href="#touch：创建一个空白文件" class="headerlink" title="touch：创建一个空白文件"></a>touch：创建一个空白文件</h3><p>touch命令其实一开始的设计初衷是修改文件的时间戳，就是可以修改文件的创建时间或修改时间，让电脑以为文件是在那个时候被创建或修改的</p>
+<p>如果touch命令后面跟着的文件名是不存在的文件，它会创建一个</p>
+<h3 id="mkdir：创建一个目录"><a href="#mkdir：创建一个目录" class="headerlink" title="mkdir：创建一个目录"></a>mkdir：创建一个目录</h3><p>mkdir命令就是用于创建一个目录的，mkdir是mk和dir的缩写。mk是make的缩写，表示创建</p>
+<p>索要创建的目录的名字里有空格怎么办呢？加上引号</p>
+<p>还可以用-p参数来递归创建目录结构：mkdir -p one/two/three</p>
+<h3 id="cp：拷贝文件或目录"><a href="#cp：拷贝文件或目录" class="headerlink" title="cp：拷贝文件或目录"></a>cp：拷贝文件或目录</h3><p>cp是英语copy的缩写，表示“拷贝”，cp命令不仅可以拷贝单个文件，还可以拷贝多个文件，也可以拷贝目录</p>
+<p>拷贝目录，只要在cp命令之后加上-r或者-R参数，r大写和小写作用是一样的，都表示recursive，也就是递归的，拷贝的时候，目录中的所有内容(子目录和文件)都会被拷贝</p>
+<p>使用通配符*：cp*.txt folder表示把当前目录下所有以.txt结尾的文件都拷贝到folder目录中，cp ha* folder表示把当前目录所有以ha开头的文件都拷贝到folder目录中</p>
+<h3 id="rm：删除文件和目录"><a href="#rm：删除文件和目录" class="headerlink" title="rm：删除文件和目录"></a>rm：删除文件和目录</h3><p>rm是英语remove的缩写，表示“移除”，这个命令就是用来删除东西的</p>
+<p>rm -i：向用户确认是否删除，保险起见，用rm命令删除文件时，可以加上-i参数，这样对于每个要删除的文件，终端都会询问我们是否确定删除</p>
+<p>rm -f：慎用，不会询问是否删除，强制删除</p>
+<p>rm -rf：递归删除，千万不要做 rm -rf /*或 rm -rf /</p>
+<h3 id="ln：创建链接"><a href="#ln：创建链接" class="headerlink" title="ln：创建链接"></a>ln：创建链接</h3><p><code>ln</code>是link的缩写，在英语中表示“链接”，ln命令用于在文件之间创建链接(快捷方式)</p>
+<p>在Linux下链接有两种类型：</p>
+<ul>
+<li>  Physical link：物理链接或硬链接</li>
+<li>  Symbolic link：符号链接或软链接</li>
+</ul>
+<p>在linux中，文件在硬盘上的存储分两部分：文件名和文件内容，文件名的列表是存储在硬盘的其它地方的，和文件内容分开存放，方便linux管理</p>
+<p>其实每个文件有三部分：文件名、权限和文件内容，我们这里简化地将文件分为两部分：文件名和文件内容</p>
+<p>每个文件的文件内容被分配到一个标号号码，就是inode,因此每个文件名都绑定到它的文件内容(用inode标识)</p>
+<p><strong>硬链接</strong></p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln file1 file2</span><br></pre></td></tr></table></figure>
+
+<p>如果我们删除了file1,那么对file2没什么影响，删除file2对file1也没有什么影响，我们可以理解为用rm命令就是断开了文件名和文件内容之间的那根线，</p>
+<p>对于硬链接来说，删除任意一方的文件，共同指向的文件内容并不会从硬盘上被删除</p>
+<p>硬链接原理：使链接的两个文件共享同样文件内容，就是同样的inode，一旦两个文件之间有了硬链接，那么修改其中一个文件，修改的是相同的一块内容，只不过我们可以用两个文件名来获取到文件内容</p>
+<p>硬链接缺陷：只能创建指向文件的硬链接，不能创建指向目录的(通过一些参数的修改，也可以创建指向目录的硬链接，但是比较复杂)，软链接可以指向文件或目录，对于目录，一般都是用软链接</p>
+<p>可以用ls -i命令查看一下(-i参数可以显示文件的inode)</p>
+<p><strong>软连接</strong></p>
+<p>软链接才真正像我们在windows下的快捷方式，原理很相似</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s file1 file2</span><br></pre></td></tr></table></figure>
+
+<p>创建硬链接时ln不带任何参数，创建软连接需要加上-s参数</p>
+<p>软链接的特点：如果我们删除了file2，没什么大不了的，file1不会受到影响，如果删除file1,file2会变成“死链接”，因为指向的文件不见了</p>
+<h3 id="grep：筛选数据"><a href="#grep：筛选数据" class="headerlink" title="grep：筛选数据"></a>grep：筛选数据</h3><p><code>grep</code>是Globally search a Regular Expression and Print的缩写，意思是“全局搜索一个正则表达式，并且打印”，grep的功能简单说是在文件中查找关键字，并显示关键字所在的行</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">grep 搜索内容 要被搜索的文件</span><br><span class="line"></span><br><span class="line"># -i参数：忽略大小写，默认情况下，grep命令是区分大小写的，i是英语ignore的缩写，表示“忽略”</span><br><span class="line">grep -i</span><br><span class="line"></span><br><span class="line"># -n参数：显示行号，-n参数的作用很简单，就是显示搜索到的文本所在的行,n是英语number的缩写，表示“数字，编号”</span><br><span class="line">grep -n</span><br><span class="line"># 示例</span><br><span class="line">grep -n search_content /etc/profile</span><br><span class="line"></span><br><span class="line"># -v参数：只显示文本不在的行，v是invert的缩写，表示“颠倒，倒置”</span><br><span class="line">grep -v</span><br><span class="line"># 示例</span><br><span class="line">grep -v search_content /etc/profile</span><br><span class="line"></span><br><span class="line"># -r参数：在所有子目录和子文件中查找</span><br><span class="line">grep -r</span><br><span class="line"># 示例</span><br><span class="line">grep -r &quot;hello world&quot; /folder</span><br><span class="line"></span><br><span class="line"># 正则查找</span><br><span class="line"># ^匹配行首 </span><br><span class="line">grep -E ^path /etc/profle</span><br><span class="line"></span><br><span class="line"># 包含Path和path的会被搜索到</span><br><span class="line">grep -E [Pp]ath /etc/profile</span><br><span class="line"></span><br><span class="line"># 包含a-zA-Z之间任意字母的都可以被搜索到</span><br><span class="line">grep -E [a-zA-Z] /etc/profile</span><br><span class="line"># 在CentOS中，不加-E也是可以的</span><br></pre></td></tr></table></figure>
+
+<h3 id="wc：文件统计"><a href="#wc：文件统计" class="headerlink" title="wc：文件统计"></a>wc：文件统计</h3><p><code>wc</code>是word count的缩写，不仅可以用来统计单词数目，还可以用来统计行数、字符数、字节数等</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># wc命令显示的三个数字分别是 行数 单词数 字节数 文件名</span><br><span class="line">wc 文件名</span><br><span class="line"># -l参数：统计行数，l是英语“line”的缩写，表示“行”</span><br><span class="line">wc -l test.txt</span><br><span class="line"></span><br><span class="line"># -w参数：统计单词数，w是“word”的缩写，表示“单词”</span><br><span class="line">wc -w test.txt</span><br><span class="line"></span><br><span class="line"># -c参数：统计字节数，c是“character”的缩写，表示“字符”</span><br><span class="line">wc -c text.txt</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192326501-768802358.png"></p>
+<h3 id="uniq：删除文件中的重复内容"><a href="#uniq：删除文件中的重复内容" class="headerlink" title="uniq：删除文件中的重复内容"></a>uniq：删除文件中的重复内容</h3><p><code>uniq</code>是英语unique的缩写，表示“独一无二的”，unique命令有点“呆”，只能将连续的重复行变为一行</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">uniq 文件名</span><br><span class="line"># -c参数：统计重复的行数，c是统计count的缩写，表示“统计，计数”</span><br><span class="line">uniq -c test.txt</span><br><span class="line"></span><br><span class="line"># -d参数：只显示重复的行的值,d是duplicated的缩写，表示“重复的”</span><br><span class="line">uniq -d test</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192338099-1198324960.png"></p>
+<h3 id="scp：网间拷贝"><a href="#scp：网间拷贝" class="headerlink" title="scp：网间拷贝"></a>scp：网间拷贝</h3><p><code>scp</code>是Secure Copy的缩写，表示”安全拷贝“，scp可以使我们通过网络，把文件从一台电脑拷贝到另一台电脑</p>
+<p>scp是基于SSH(Secure Shell)的原理来运作的，SSH会在两台通过网络连接的电脑之间创建一条安全通信的通道，scp就利用这条管道安全地拷贝文件</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># source_file表示源文件，destination_file就是目标文件</span><br><span class="line"># 这两个文件都可以用如下方式来表示 user@ip:file_name</span><br><span class="line"># []以及括号内的内容可以省略，默认是22端口，和SSH一样</span><br><span class="line">scp [-P 端口号] source_file destination_file</span><br></pre></td></tr></table></figure>
+
+<h3 id="rsync：同步备份"><a href="#rsync：同步备份" class="headerlink" title="rsync：同步备份"></a>rsync：同步备份</h3><p><code>rsync</code>是remote synchronize的缩写，remote表示”远程“，synchronize表示”同步“</p>
+<p>因此rsync命令主要用于”远程同步文件“，如果系统没有rsync命令，可以安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install rsync</span><br></pre></td></tr></table></figure>
+
+<p>rsync可以使我们同步两个目录，不管这两个目录位于同一台电脑还是不同的电脑(用网络连接)</p>
+<p>rsync应该是最change用于”增量备份“的命令了，增量备份(incremental backup)是备份的一种类型，指在一次全备份或上一次增量备份后</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 将images目录下的所有文件备份到backups目录下</span><br><span class="line">rsync -arv images/ backups/</span><br><span class="line"></span><br><span class="line"># -a：保留文件的所有信息，包括权限、修改日期等</span><br><span class="line"># -r：递归调用。表示子目录下的所有文件都包括</span><br><span class="line"># -v：冗余模式。输出详细操作信息，v是verbose的缩写，是”冗余“的意思</span><br><span class="line"># 默认地，rsync在同步时并不会删除目标目录的文件</span><br><span class="line"># 例如，你的源目录(被同步目录)中删除了一个文件，但是rsync同步时，它不会删除同步目录中的相同文件</span><br><span class="line">rsync -arv --delete images/ joey@172.16.147.128:backups/</span><br></pre></td></tr></table></figure>
+
+<p>你可以自己配置rsync，使得它从指定目录(可以是多个目录)备份到指定IP地址的目录下，而且可以指定哪些类型文件是要备份的，哪些类型不要备份，然后把这一长串命令同意用shell脚本来写成一个文件(例如取名叫backup)，使之可执行(用chmod + x命令)，再把这个文件的路径添加到PATH环境变量中</p>
+<h2 id="流、重定向和管道符号"><a href="#流、重定向和管道符号" class="headerlink" title="流、重定向和管道符号"></a>流、重定向和管道符号</h2><h3 id="stdin、stdout、stderr"><a href="#stdin、stdout、stderr" class="headerlink" title="stdin、stdout、stderr"></a>stdin、stdout、stderr</h3><p>从键盘向终端输入数据，这是标准输入，也就是<code>stdin</code>，终端接收键盘输入的命令，会产生两种输出，一种是标准输出(<code>stdout</code>)，另一种是标准错误输出(<code>stderr</code>)，指终端输出的错误信息</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113162940937-800544583.png"></p>
+<p><strong>stdin:标准输入流</strong></p>
+<p><code>stdin</code>:标准输入流。英语standard input的缩写。标准输入是指输入至程序的数据(通常是文件)。程序要求以读(read)操作来传输数据。并非所有程序都要求输入。如ls命令运行时不用任何输入。除非重定向，输入是预期由键盘获取的。标准输入的文件描述符为0(零)</p>
+<p><strong>stdout:标准输出流</strong></p>
+<p><code>stdout</code>:标准输出流。英语standard output的缩写。标准输出是指程序输出的数据。程序要求数据传输使用写的运算。并非所欲程序都要求输出。如mv命令在成功完成时是没有输出的。除非重定向，输出是预期显示在终端上的。标准输出的文件描述符为1(一)</p>
+<p><strong>stderr:标准错误输出</strong></p>
+<p><code>stderr</code>:标准错误输出流。英语standard error的缩写。标准错误输出是另一个输出流，用于输出错误消息或诊断。它独立于标准输出，且标准输出和标准错误输出可以分别被重定向。标准错误输出的文件描述符为2(二)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113162954350-872477573.png"></p>
+<p><code>文件描述符</code>：文件描述符的英语是File Descriptor，简称fd。文件描述符是一个用于表述指向文件的引用的抽象化概念，在形式上是一个非负整数。实际上，它是一个索引值，指向操作系统内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在Windows中，也有类似的概念，不过在Windows中称为“句柄”，就是handle</p>
+<h3 id="gt-和-gt-gt"><a href="#gt-和-gt-gt" class="headerlink" title="&gt;和&gt;&gt;"></a>&gt;和&gt;&gt;</h3><p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 将test.txt的内容输出到new_test.txt,如果new_test.txt文件已经有内容，原有内容会被覆盖</span><br><span class="line">cat test.txt &gt; new_test.txt</span><br><span class="line"># 将test.txt的内容输出到new_test.txt,会将test.txt的内容追加到new_test.txt文件内容的结尾，不会覆盖</span><br><span class="line">cat test.txt &gt;&gt; new_test.txt</span><br></pre></td></tr></table></figure>
+
+<p><code>&gt;</code>和<code>&gt;&gt;</code>可以将命令的输出结果重定向到指定的文件中,</p>
+<p><code>&gt;</code>的特点：</p>
+<p>如果此文件不存在，则新建一个文件；</p>
+<p>如果此文件已经存在，那就会把文件内容覆盖掉；</p>
+<p>而且是不会征求用户确认的；</p>
+<p><code>&gt;&gt;</code>的特点：</p>
+<p>如果此文件不存在，则新建一个文件；</p>
+<p>如果此文件已经存在，则会将内容追加到文件的末尾；</p>
+<h3 id="2-gt"><a href="#2-gt" class="headerlink" title="2&gt;"></a>2&gt;</h3><p>标准错误输出的文件描述符是2，所以这里的2表示标准错误输出，如果没有2，单独的&gt;符号就是重定向标准输出(文件描述符为1)</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat not_exist_file.txt &gt; result.txt 2&gt; errors.log</span><br></pre></td></tr></table></figure>
+
+<p><code>2&gt;&gt;</code>符号用于将标准错误输出重定向到文件末尾</p>
+<h3 id="2-gt-amp-1"><a href="#2-gt-amp-1" class="headerlink" title="2&gt;&amp;1"></a>2&gt;&amp;1</h3><p>将标准错误输出重定向到和标准输出相同的地方</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 覆盖</span><br><span class="line">cat not_exist_file.txt &gt; result.txt 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># 追加</span><br><span class="line">cat not_exist_file.txt &gt;&gt; result.txt 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163009147-1582429379.png"></p>
+<h3 id="lt-和-lt-lt"><a href="#lt-和-lt-lt" class="headerlink" title="&lt;和&lt;&lt;"></a>&lt;和&lt;&lt;</h3><p>不是所有的命令都有输入，也不是所有的命令都有输出，其实可以使命令的输入来自于文件或者键盘输入。</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163023510-129166322.png"></p>
+<p><code>&lt;</code>：从文件中读取</p>
+<p>cat notes.csv于cat &lt; notes.csv的运行结果是一样的，有什么不同？</p>
+<p>对于cat notes.csv，cat命令接收的输入是notes.csv这个文件名，那么它要先打开notes.csv文件，然后打印出文件内容</p>
+<p>对于cat &lt; notes.csv，cat命令接收输入的是notes.csv这个文件的内容，cat命令只负责将其内容打印，打开文件并将文件内容传递给cat命令的工作则交给终端完成</p>
+<p><code>&lt;&lt;</code>：从键盘读取</p>
+<p>&lt;&lt;符号的作用是将键盘的输入重定向为某个命令的输入</p>
+<p>sort -n &lt;&lt; END</p>
+<p>输入这个命令之后，按下回车，终端就进入了键盘输入模式，接着再输入END结束</p>
+<p>注：并不是一定要是END，输入任意字母都行，然后输入结束再输入相同的字母结束</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163033661-1035877853.png"></p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163246721-603538726.png"></p>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>将两个命令连成管道，简单地说就是将一个命令的输出作为另一个命令的输入，使用<code>|</code>作为管道符。</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163302260-2058948948.png"></p>
+<p>示例：</p>
+<p>查看系统当前PHP-FPM进程</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163354606-1926662430.png"></p>
+<p>按照名字排序</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210113163318398-909145326.png"></p>
+<h2 id="用户群组系统"><a href="#用户群组系统" class="headerlink" title="用户群组系统"></a>用户群组系统</h2><h3 id="sudo-i-切换到root身份"><a href="#sudo-i-切换到root身份" class="headerlink" title="sudo -i:切换到root身份"></a>sudo -i:切换到root身份</h3><p>sudo 是英语Substitute User DO的缩写，substitute是”替换，代替、替身“的意思，user是”用户“的意思，do是”做“的意思，连在一起就是”替换用户来执行…“的意思</p>
+<p>终端会提示你输入密码，至少第一次会要求输入密码，此密码是你个人的密码。</p>
+<h3 id="useradd：添加新用户"><a href="#useradd：添加新用户" class="headerlink" title="useradd：添加新用户"></a>useradd：添加新用户</h3><p>user是英语”用户“的意思，add是英语”添加“的意思</p>
+<p>useradd用于添加用户。用法：命令后接要创建的用户名</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd joey</span><br></pre></td></tr></table></figure>
+
+<h3 id="passwd：设置-修改密码"><a href="#passwd：设置-修改密码" class="headerlink" title="passwd：设置/修改密码"></a>passwd：设置/修改密码</h3><p>passwd是password这个英语单词的缩写，表示”密码“</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd joey</span><br></pre></td></tr></table></figure>
+
+<h3 id="userdel：删除用户"><a href="#userdel：删除用户" class="headerlink" title="userdel：删除用户"></a>userdel：删除用户</h3><p>单单用userdel命令，不加参数的话，只会删除用户，但是不会删除在/home目录中的用户家目录</p>
+<p>如果想要连次用户的家目录页一并删除的话，可以加上-r或-remove这个参数</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userdel -r joey</span><br><span class="line">userdel -remove joey</span><br></pre></td></tr></table></figure>
+
+<h3 id="groupadd：创建群组"><a href="#groupadd：创建群组" class="headerlink" title="groupadd：创建群组"></a>groupadd：创建群组</h3><p>groupadd是group和add的缩写，group是英语”群组“的意思，add是英语”添加“的意思</p>
+<p>groupadd命令用于添加一个新的群组</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd 组名</span><br><span class="line"># 示例：</span><br><span class="line">groupadd friends</span><br></pre></td></tr></table></figure>
+
+<h3 id="usermod：修改用户"><a href="#usermod：修改用户" class="headerlink" title="usermod：修改用户"></a>usermod：修改用户</h3><p>usermod是user和modify的缩写，user是用于”用户“的意思，modify是”修改“的意思</p>
+<p>usermod命令用于修改用户的账户</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">usermod</span><br><span class="line"># -l参数：对用户重命名，/home中的家目录名不改变，需要手动修改</span><br><span class="line"># -g参数：修改用户所在群组</span><br><span class="line"># 将joey的所属于组改为friends</span><br><span class="line">usermod -g friends joey</span><br><span class="line"></span><br><span class="line"># -G参数：将一个用户添加到多个群组,群组名之间用逗号分隔，而且没有空格</span><br><span class="line">usermod -G group1,group2,group3</span><br><span class="line"></span><br><span class="line"># -a参数：追加，如果想不离开原先的群组，又想加入新的群组，可以在-G的基础上加上-a参数</span><br><span class="line">usermod -aG group4,group5</span><br></pre></td></tr></table></figure>
+
+<h3 id="groups：查看用户所属组"><a href="#groups：查看用户所属组" class="headerlink" title="groups：查看用户所属组"></a>groups：查看用户所属组</h3><p>用groups(”群组“)命令可以获知一个用户属于哪个(些)群组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groups joey</span><br></pre></td></tr></table></figure>
+
+<h3 id="groupdel：删除群组"><a href="#groupdel：删除群组" class="headerlink" title="groupdel：删除群组"></a>groupdel：删除群组</h3><p>groupdel是group和delete的缩写，group是英语”群组“的意思，delete是英语”删除“的意思</p>
+<p>groupdel命令用于删除一个已存在的群组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groupdel group1</span><br></pre></td></tr></table></figure>
+
+<h3 id="chown：改变文件的所有者"><a href="#chown：改变文件的所有者" class="headerlink" title="chown：改变文件的所有者"></a>chown：改变文件的所有者</h3><p>chown命令用于改变文件的所有者，需要root身份才能运行。chown是change和owner的缩写。</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chown 用户 文件</span><br><span class="line"># chown也可以改变文件的群组</span><br><span class="line">chown 用户:组 文件</span><br><span class="line"># -R参数：递归修改文件所有者，只能是大写，小写不起作用，使得被修改的目录的所有子目录和文件都改变所有者</span><br><span class="line">chown -R 用户 目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="chgrp：改变文件的群组"><a href="#chgrp：改变文件的群组" class="headerlink" title="chgrp：改变文件的群组"></a>chgrp：改变文件的群组</h3><p>chgrp是change和group的缩写，用户改变文件的群组</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chgrp 群组名 文件名</span><br></pre></td></tr></table></figure>
+
+<h3 id="chomod：修改访问权限"><a href="#chomod：修改访问权限" class="headerlink" title="chomod：修改访问权限"></a>chomod：修改访问权限</h3><p>linux系统里，每个文件和目录都有一列权限树形，访问权限知名了谁有读/写/执行的权利，chmod命令不需要是root用户才能运行，只要你是此文件所有者，就可以使用chmod来修改文件的访问权限</p>
+<p>chmod是change和mode的缩写，change是英语”改变“的意思，mode是”模式“的意思</p>
+<p>chmod命令用于修改文件的各种访问权限</p>
+<p>linux系统对每种权限(r，w和x)分配了对应的数字</p>
+<p>要合并这些权限，就需要做简单的加法了。</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192432206-2090205304.png"></p>
+<p>访问权限有三组(所有者的权限,群组的权限,其它用户的权限)</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># text.txt的所属用户有读写权限，所属组和其它用户没有任何权限</span><br><span class="line">chmod 600 text.txt</span><br><span class="line"></span><br><span class="line"># -R参数：递归地修改访问权限</span><br><span class="line"># chmod 配合 -R参数可以递归地修改文件访问权限</span><br><span class="line">chmod -R 700 /home/joey</span><br></pre></td></tr></table></figure>
+
+<p>除了用户，可以用另一种方式来分配文件的访问权限：<strong>用字母</strong></p>
+<p><strong>u</strong>:user的缩写，表示所有者</p>
+<p><strong>g</strong>:group的缩写，表示群组用户</p>
+<p><strong>o</strong>:other的缩写，表示其它用户</p>
+<p><strong>a</strong>:all的缩写，表示所有用户</p>
+<p><strong>+</strong>:加号，表示添加权限</p>
+<p><strong>-</strong>:减号，表示减去权限</p>
+<p><strong>-</strong>:等号，表示分配权限</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chmod u+rx file 文件file的所有者增加读和运行的权限</span><br><span class="line">chmod g+r file  文件file的群组用户增加读的权限</span><br><span class="line">chmod o-r file  文件file的其它用户移除读的权限</span><br><span class="line">chmod g+r o-r file 文件file的群组用户增加读的权限，其它用户移除读的权限</span><br><span class="line">chmod u=rwx,g=r,o=- file 文件file的所有者分配读、写、执行的权限，群组分配读的权限，其它用户没有任何权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="软件管理"><a href="#软件管理" class="headerlink" title="软件管理"></a>软件管理</h2><h3 id="软件仓库"><a href="#软件仓库" class="headerlink" title="软件仓库"></a>软件仓库</h3><p>在Red Hat一族里，软件包的后缀是.rpm,rpm是Red Hat Package Manager的缩写，表示”红帽软件包管理器“,CentOS作为Red Hat一族的一员，也是用的.rpm的软件包</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192449372-1359353194.png"></p>
+<p>用默认的官方版本是最好的，但是会比较卡，所以我们要学习如何切换软件仓库，CentOS系统使用的软件仓库的列表是记录在一个文件中，要编辑的那个包含软件仓库的列表的文件是/etc/yum.repos.d/CentOS-Base.repo，这个文件时系统文件，只能被root用户修改</p>
+<p>修改CentOS7默认yum源为mirros.aliyun.com</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 1.备份</span><br><span class="line">mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br><span class="line"></span><br><span class="line"># 2.下载新的CentOS-Base.repo 到 /etc/yum.repos.d/</span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"># 3.运行 yum makecache 生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<h3 id="wget：下载文件"><a href="#wget：下载文件" class="headerlink" title="wget：下载文件"></a>wget：下载文件</h3><p>wget可以使我们直接从终端控制台下载文件，只需要给出文件的HTTP或FTP地址</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget addr</span><br><span class="line"># -c参数：继续一个中断的下载，c是英语continue的缩写，表示”继续“</span><br><span class="line">wget -c https://www.php.net/distributions/php-7.4.14.tar.gz</span><br><span class="line"># -O参数：重命名(大写字母O)</span><br><span class="line">wget -c https://www.php.net/distributions/php-7.4.14.tar.gz -O php.tar.gz</span><br><span class="line"># -o参数：保存输出日志(小写字母o)</span><br><span class="line">wget -c https://www.php.net/distributions/php-7.4.14.tar.gz -O php.tar.gz -o wget.log</span><br></pre></td></tr></table></figure>
+
+<h3 id="yum：包管理工具"><a href="#yum：包管理工具" class="headerlink" title="yum：包管理工具"></a>yum：包管理工具</h3><p>yum是CentOS中的默认包管理工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 搜索软件包</span><br><span class="line">sudo yum search</span><br><span class="line"></span><br><span class="line"># 安装软件包</span><br><span class="line">sudo yum install</span><br><span class="line"></span><br><span class="line"># 删除软件包</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line"># 本地的.rpm软件包，可以用rpm命令来安装</span><br><span class="line">sudo rpm -ivh xxx.rpm  # 用于安装</span><br><span class="line">sudo rpm -e 包名        # 用于卸载</span><br><span class="line"></span><br><span class="line"># 本地的.rpm软件包，也可以用yum命令来安装</span><br><span class="line">sudo yum localinstall xxx.rpm  # 用于安装</span><br><span class="line">sudo yum remove 包名            # 用于卸载</span><br></pre></td></tr></table></figure>
+
+<h2 id="进程和系统监测"><a href="#进程和系统监测" class="headerlink" title="进程和系统监测"></a>进程和系统监测</h2><h3 id="w：都有谁，在做什么？"><a href="#w：都有谁，在做什么？" class="headerlink" title="w：都有谁，在做什么？"></a>w：都有谁，在做什么？</h3><p>user：当前登录的用户</p>
+<p>From：登录IP</p>
+<p>load average：负载，后面的三个数表示1分钟、5分钟、15分钟之内的平均负载</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192510960-216870422.png"></p>
+<h3 id="ps：进程的静态列表"><a href="#ps：进程的静态列表" class="headerlink" title="ps：进程的静态列表"></a>ps：进程的静态列表</h3><p><code>ps</code>是Process Status的缩写，process是英语“进程”的意思，status是“状态”的意思</p>
+<p>ps命令用户显示当前系统中的进程，ps命令显示的进程列表不会随着时间而更新，是静态的</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 列出所有的进程</span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line"># 以乔木装列出所有进程</span><br><span class="line">ps -efH</span><br><span class="line"></span><br><span class="line"># 列出某个用户运行的进程</span><br><span class="line">ps -u 用户名</span><br><span class="line"></span><br><span class="line"># 通过CPU和内存使用来过滤进程</span><br><span class="line">ps -aux | less</span><br><span class="line"></span><br><span class="line"># 根据CPU使用率来降序排序</span><br><span class="line">ps -aux --sort -pcpu | less</span><br><span class="line"></span><br><span class="line"># 根据内存使用率来降序排序</span><br><span class="line">ps -aux --sort -pmem | less</span><br><span class="line"></span><br><span class="line"># 以树形结构显示进程，和pstree效果类似</span><br><span class="line">ps -axjf</span><br></pre></td></tr></table></figure>
+
+<h3 id="top：进程的动态列表"><a href="#top：进程的动态列表" class="headerlink" title="top：进程的动态列表"></a>top：进程的动态列表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">q：退出top</span><br><span class="line">h：显示帮助文档，也就是哪些按键可以使用,按下任意键返回，按q回到top命令的主界面</span><br><span class="line">B：大写的B，加粗某些信息</span><br><span class="line">f/F：在进程列表中添加或删除某些列</span><br><span class="line">u：依照用户来过滤显示</span><br><span class="line">k：结束某个进程</span><br><span class="line">s：改变刷新页面的时间，默认地，页面每隔3秒刷新一次</span><br></pre></td></tr></table></figure>
+
+<h3 id="netstat：网络统计"><a href="#netstat：网络统计" class="headerlink" title="netstat：网络统计"></a>netstat：网络统计</h3><p><code>netstat</code>命令很好记，它由两部分组成：net和stat,net是network的缩写，表示”网络“，stat是statistics的缩写，表示”统计“</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看命令执行的二进制文件在哪儿</span><br><span class="line">which netstat</span><br><span class="line"># 查看这个二进制属于哪个rpm包</span><br><span class="line">rpm -qf /usr/bin/netstat</span><br></pre></td></tr></table></figure>
+
+<p>netstat -i：列出电脑的所有网络接口的一些统计信息</p>
+<p>RX是receive(表示”接收“)的缩写</p>
+<p>TX是transmit(表示”发送“)的缩写</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192526015-459912132.png"></p>
+<ul>
+<li>  MTU：Maximum Transmission Unit的缩写，表示”最大传输单元“，指一种通信协议的某一层上能通过的最大数据包大小(单位是字节)</li>
+<li>  RX-OK：在此接口接收的包中正确的包数，”OK“表示”没问题的，好的“</li>
+<li>  RX-ERR：在此接口接收的包中错误的包数，”ERR“是error的缩写，表示”错误“</li>
+<li>  RX-DRP：在此接口接收的包中丢弃的包数，”DRP“是drop的缩写，表示”丢弃“</li>
+<li>  RX-OVR：在此接口接收的包中，由于过速而丢失的包数，”OVR“是over的缩写， 表示”结束“</li>
+<li>  类似的，TX-OK、TX-ERR、TX-DRP、TX-OVR表示在此接口发送的包中对应的包数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 列出所有开启的连接</span><br><span class="line">netstat -uta</span><br><span class="line"></span><br><span class="line"># -u：显示UDP连接</span><br><span class="line"># -t：显示TCP连接</span><br><span class="line"># -a：不论连接状态如何，都显示</span><br><span class="line"></span><br><span class="line"># 列出状态是LISTEN的统计信息</span><br><span class="line">netstat -lt</span><br><span class="line"></span><br><span class="line"># 列出总结性的统计信息</span><br><span class="line">netstat -s</span><br><span class="line">#-s：s是summary的缩写，表示”总结“</span><br></pre></td></tr></table></figure>
+
+<h3 id="kill：杀死进程"><a href="#kill：杀死进程" class="headerlink" title="kill：杀死进程"></a>kill：杀死进程</h3><p>有时候，系统会突然卡住。这在Linux中也是会发生的，在Linux中停止进程有几种方法</p>
+<p><code>kill</code>是英语“杀死”的意思，有点“小暴力”</p>
+<p>kill命令后接需要结束的进程号，也就是之前我们看到的PID，可以通过ps命令或top命令来获知进程的PID</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kill PID</span><br><span class="line"># 杀死一个进程</span><br><span class="line">kill 1024</span><br><span class="line"># 杀死多个进程 进程号之间用空格隔开</span><br><span class="line">kill 1024 2048</span><br><span class="line"># kill -9 表示立即强制结束进程</span><br><span class="line">kill -9 1024</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：Ctrl+C：停止终端中正在运行的进程，Ctrl+C可以比较有好地中止终端中正在运行的程序(进程)</p>
+</blockquote>
+<h3 id="amp-：在后台运行进程"><a href="#amp-：在后台运行进程" class="headerlink" title="&amp;：在后台运行进程"></a>&amp;：在后台运行进程</h3><p>让一个进程在厚爱运行有几种方法</p>
+<p>很简单的一种：在你要运行的命令最后加上&amp;这个符号</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp file.txt file-copy.txt &amp;</span><br><span class="line">sudo find / -name &quot;*log&quot; &amp;</span><br><span class="line">sudo find / -name &quot;*log&quot; &gt; output_find &amp;</span><br><span class="line">sudo find / -name &quot;*log&quot; &gt; output_find 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="nohup：使进程与终端分离"><a href="#nohup：使进程与终端分离" class="headerlink" title="nohup：使进程与终端分离"></a>nohup：使进程与终端分离</h3><p>&amp;符号虽然常用，但却有一个不可忽视的缺点，就是后台进程与终端相关联，一旦终端关闭或者用户登出，进程就自动结束，想让进程在以上情况下继续在后台运行</p>
+<p>需要用到nohup命名，当用户注销(logout)或者网络断开时，终端会收到HUP(hangup的缩写，”挂断“的意思)信号从而关闭所有子进程，终端被关闭时也会关闭其子进程，可以使用nohup命令使命令不受HUP信号影响</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">man nohup</span><br><span class="line">nohup cp file.txt file-copy.txt</span><br></pre></td></tr></table></figure>
+
+<p>场景：我现在需要跑脚本批量处理一些数据，但是我又不想盯着控制台看这个脚本的输出结果，想把这些输出结果记录到一个日志文件里面</p>
+<p>方案：可以使用 Linux 的 nohup 命令，把进程挂起，后台执行</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup XXXXXX.sh &gt;&gt; /runtime/deletedata.log &amp;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果（这个数字是进程号）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1] 13120</span><br></pre></td></tr></table></figure>
+
+<p>有时候可能会报一个提示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup: ignoring input and redirecting stderr to stdout</span><br></pre></td></tr></table></figure>
+
+<p>这个影响不大，不用紧张，也可以加多一个 <code>2&gt;&amp;1</code> 就不会出现这个问题</p>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup XXXXXX.sh &gt;&gt; /runtime/deletedata.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>TIPS：命令最后面的 &amp; 符号是切换到后台去跑，退出终端也不会退出任务进程</p>
+<p>运行这个命令之后呢，会输出一个进程号，类似上面的输出，可以使用 top 命令查看运行中的进程，也可以用 ps -aux 查看进程</p>
+<p>想要终止这个进程的话只能杀死这个进程，使用 kill 指令处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 进程号</span><br></pre></td></tr></table></figure>
+
+<p>TIPS：如果进程挂不起来，可能是端口被占用了，自行排查处理便可</p>
+<h3 id="killall：结束多个进程"><a href="#killall：结束多个进程" class="headerlink" title="killall：结束多个进程"></a>killall：结束多个进程</h3><p>同一个程序运行时可能启动多个进程，一个更快捷的命令是：killall,all是英语“全部”的意思</p>
+<p>killall命令就是用于结束全部要结束的进程，不同于kill命令，killall命令后接程序名，而不是PID</p>
+<h3 id="host：查看域名对应IP"><a href="#host：查看域名对应IP" class="headerlink" title="host：查看域名对应IP"></a>host：查看域名对应IP</h3><p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="whois：了解有关域名的信息"><a href="#whois：了解有关域名的信息" class="headerlink" title="whois：了解有关域名的信息"></a>whois：了解有关域名的信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install whois</span><br><span class="line">whois www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="halt：关机"><a href="#halt：关机" class="headerlink" title="halt：关机"></a>halt：关机</h3><p>需要以root身份才能关闭系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo halt</span><br></pre></td></tr></table></figure>
+
+<h3 id="reboot：重启系统"><a href="#reboot：重启系统" class="headerlink" title="reboot：重启系统"></a>reboot：重启系统</h3><p>需要以root身份才能重启系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+
+<h3 id="poweroff：关机"><a href="#poweroff：关机" class="headerlink" title="poweroff：关机"></a>poweroff：关机</h3><p>poweroff命令也可以用于关机，直接运行即可关机，不需要root身份：poweroff</p>
+<p>原文地址:<a target="_blank" rel="noopener" href="https://linux.cn/article-4326-1.html">iproute2 对决 net-tools</a></p>
+<p>如今很多系统管理员依然通过组合使用诸如ifconfig、route、arp和netstat等命令行工具（统称为net-tools）来配置网络功能，解决网络故障。net-tools起源于BSD的TCP/IP工具箱，后来成为老版本Linux内核中配置网络功能的工具。<strong>但自2001年起，Linux社区已经对其停止维护。</strong>同时，一些Linux发行版比如Arch Linux和CentOS/RHEL 7则已经完全抛弃了net-tools，只支持iproute2。</p>
+<p>作为网络配置工具的一份子，iproute2的出现旨在从功能上取代net-tools。net-tools通过procfs(/proc)和ioctl系统调用去访问和改变内核网络配置，而iproute2则通过netlink套接字接口与内核通讯。抛开性能而言，iproute2的用户接口比net-tools显得更加直观。比如，各种网络资源（如link、IP地址、路由和隧道等）均使用合适的对象抽象去定义，使得用户可使用一致的语法去管理不同的对象。更重要的是，到目前为止，iproute2仍处在<a target="_blank" rel="noopener" href="https://www.kernel.org/pub/linux/utils/net/iproute2/">持续开发</a>中。</p>
+<p>如果你仍在使用net-tools，而且尤其需要跟上新版Linux内核中的最新最重要的网络特性的话，那么是时候转到iproute2的阵营了。原因就在于使用iproute2可以做很多net-tools无法做到的事情。</p>
+<p>对于那些想要转到使用iproute2的用户，有必要了解下面有关net-tools和iproute2的众多对比。</p>
+<h3 id="显示所有已连接的网络接口"><a href="#显示所有已连接的网络接口" class="headerlink" title="显示所有已连接的网络接口"></a>显示所有已连接的网络接口</h3><p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip link show</span><br></pre></td></tr></table></figure>
+
+<h3 id="激活或停用网络接口"><a href="#激活或停用网络接口" class="headerlink" title="激活或停用网络接口"></a>激活或停用网络接口</h3><p>使用这些命令来激活或停用某个指定的网络接口。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 up</span><br><span class="line">sudo ifocnfig eth1 down</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link set down eth1</span><br><span class="line">sudo ip link set up   eth1</span><br></pre></td></tr></table></figure>
+
+<h3 id="为网络接口分配IPv4地址"><a href="#为网络接口分配IPv4地址" class="headerlink" title="为网络接口分配IPv4地址"></a>为网络接口分配IPv4地址</h3><p>使用这些命令配置网络接口的IPv4地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 10.0.0.1/24 </span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr add 10.0.0.1/24 dev eth1</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，可以使用iproute2给同一个接口分配多个IP地址，ifconfig则无法这么做。使用ifconfig的变通方案是使用<a target="_blank" rel="noopener" href="http://xmodulo.com/2013/02/how-to-assign-multiple-ip-addresses-to-one-network-interface-on-centos.html">IP别名</a>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr add 10.0.0.1/24 broadcast 10.0.0.255 dev eth1</span><br><span class="line">sudo ip addr add 10.0.0.2/24 broadcast 10.0.0.255 dev eth1</span><br><span class="line">sudo ip addr add 10.0.0.3/24 broadcast 10.0.0.255 dev eth1</span><br></pre></td></tr></table></figure>
+
+<h3 id="移除网络接口的IPv4地址"><a href="#移除网络接口的IPv4地址" class="headerlink" title="移除网络接口的IPv4地址"></a>移除网络接口的IPv4地址</h3><p>就IP地址的移除而言，除了给接口分配全0地址外，net-tools没有提供任何合适的方法来移除网络接口的IPv4地址。相反，iproute2则能很好地完全。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 0 </span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr del 10.0.0.1/24 dev eth1 </span><br></pre></td></tr></table></figure>
+
+<h3 id="显示网络接口的IPv4地址"><a href="#显示网络接口的IPv4地址" class="headerlink" title="显示网络接口的IPv4地址"></a>显示网络接口的IPv4地址</h3><p>按照如下操作可查看某个指定网络接口的IPv4地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth1</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr show dev eth1</span><br></pre></td></tr></table></figure>
+
+<p>同样，如果接口分配了多个IP地址，iproute2会显示出所有地址，而net-tools只能显示一个IP地址。</p>
+<h3 id="为网络接口分配IPv6地址"><a href="#为网络接口分配IPv6地址" class="headerlink" title="为网络接口分配IPv6地址"></a>为网络接口分配IPv6地址</h3><p>使用这些命令为网络接口添加IPv6地址。net-tools和iproute2都允许用户为一个接口添加多个IPv6地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 inet6 add 2002:0db5:0:f102::1/64</span><br><span class="line">sudo ifconfig eth1 inet6 add 2003:0db5:0:f102::1/64</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip -6 addr add 2002:0db5:0:f102::1/64 dev eth1</span><br><span class="line">sudo ip -6 addr add 2003:0db5:0:f102::1/64 dev eth1</span><br></pre></td></tr></table></figure>
+
+<h3 id="显示网络接口的IPv6地址"><a href="#显示网络接口的IPv6地址" class="headerlink" title="显示网络接口的IPv6地址"></a>显示网络接口的IPv6地址</h3><p>按照如下操作可显示某个指定网络接口的IPv6地址。net-tools和iproute2都可以显示出所有已分配的IPv6地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth1</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip -6 addr show dev eth1</span><br></pre></td></tr></table></figure>
+
+<h3 id="移除网络设备的IPv6地址"><a href="#移除网络设备的IPv6地址" class="headerlink" title="移除网络设备的IPv6地址"></a>移除网络设备的IPv6地址</h3><p>使用这些命令可移除接口中不必要的IPv6地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 inet6 del 2002:0db5:0:f102::1/64</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip -6 addr del 2002:0db5:0:f102::1/64 dev eth1</span><br></pre></td></tr></table></figure>
+
+<h3 id="改变网络接口的MAC地址"><a href="#改变网络接口的MAC地址" class="headerlink" title="改变网络接口的MAC地址"></a>改变网络接口的MAC地址</h3><p>使用下面的命令可<a target="_blank" rel="noopener" href="http://xmodulo.com/2014/02/spoof-mac-address-network-interface-linux.html">篡改网络接口的MAC地址</a>，请注意在更改MAC地址前，需要停用接口。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth1 hw ether 08:00:27:75:2a:66</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link set dev eth1 address 08:00:27:75:2a:67</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看IP路由表"><a href="#查看IP路由表" class="headerlink" title="查看IP路由表"></a>查看IP路由表</h3><p>net-tools中有两个选择来显示内核的IP路由表：route和netstat。在iproute2中，使用命令ip route。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">route -n</span><br><span class="line">netstat -rn</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route show</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加和修改默认路由"><a href="#添加和修改默认路由" class="headerlink" title="添加和修改默认路由"></a>添加和修改默认路由</h3><p>这里的命令用来添加或修改内核IP路由表中的默认路由规则。请注意在net-tools中可通过添加新的默认路由、删除旧的默认路由来实现修改默认路由。在iproute2使用ip route命令来代替。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo route add default gw 192.168.1.2 eth0</span><br><span class="line">sudo route del default gw 192.168.1.1 eth0</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip route add default via 192.168.1.2 dev eth0</span><br><span class="line">sudo ip route replace default via 192.168.1.2 dev eth0</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加和移除静态路由"><a href="#添加和移除静态路由" class="headerlink" title="添加和移除静态路由"></a>添加和移除静态路由</h3><p>使用下面命令添加或移除一个静态路由。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo route add -net 172.16.32.0/24 gw 192.168.1.1 dev eth0</span><br><span class="line">sudo route del -net 172.16.32.0/24</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip route add 172.16.32.0/24 via 192.168.1.1 dev eth0</span><br><span class="line">sudo ip route del 172.16.32.0/24</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看套接字统计信息"><a href="#查看套接字统计信息" class="headerlink" title="查看套接字统计信息"></a>查看套接字统计信息</h3><p>这里的命令用来查看套接字统计信息（比如活跃或监听状态的TCP/UDP套接字）。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat</span><br><span class="line">netstat -l</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ss</span><br><span class="line">ss -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看ARP表"><a href="#查看ARP表" class="headerlink" title="查看ARP表"></a>查看ARP表</h3><p>使用这些命令显示内核的ARP表。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp -an</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip neigh</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加或删除静态ARP项"><a href="#添加或删除静态ARP项" class="headerlink" title="添加或删除静态ARP项"></a>添加或删除静态ARP项</h3><p>按照如下操作在本地ARP表中添加或删除一个<a target="_blank" rel="noopener" href="http://xmodulo.com/2013/02/how-to-add-or-remove-static-arp-entry-on-linux.html">静态ARP项</a>。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo arp -s 192.168.1.100 00:0c:29:c0:5a:ef</span><br><span class="line">sudo arp -d 192.168.1.100</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip neigh add 192.168.1.100 lladdr 00:0c:29:c0:5a:ef dev eth0</span><br><span class="line">sudo ip neigh del 192.168.1.100 dev eth0</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加、删除或查看多播地址"><a href="#添加、删除或查看多播地址" class="headerlink" title="添加、删除或查看多播地址"></a>添加、删除或查看多播地址</h3><p>使用下面的命令配置或查看网络接口上的多播地址。</p>
+<p>使用net-tools：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo ipmaddr add 33:44:00:00:00:01 dev eth0</span><br><span class="line">sudo ipmaddr del 33:44:00:00:00:01 dev eth0</span><br><span class="line">ipmaddr show dev eth0</span><br><span class="line">netstat -g</span><br></pre></td></tr></table></figure>
+
+<p>使用iproute2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ip maddr add 33:44:00:00:00:01 dev eth0</span><br><span class="line">sudo ip maddr del 33:44:00:00:00:01 dev eth0</span><br><span class="line">ip maddr list dev eth0 </span><br></pre></td></tr></table></figure>
+
+<h2 id="计划任务-crontab"><a href="#计划任务-crontab" class="headerlink" title="计划任务(crontab)"></a>计划任务(crontab)</h2><p>在我们使用CentOS系统的过程中，我们会发现系统常常会主动的执行一些任务，这些任务到底是谁在设置工作的呢？如果你想要让自己设计的备份程序可以自动地在系统下面执行，而不需要手动地启动它，又该如何设置？这些计划型的任务可能又分为【单一】任务与【循环】任务，在系统内有时哪些服务在负责？还有还有，如果你想要每年在老婆的生日前一天就发出一封邮件提醒自己不要忘记，可以办得到嘛？嘿嘿！这些种种要如何处理，接来下我们就来了解了解。</p>
+<h3 id="什么是计划任务"><a href="#什么是计划任务" class="headerlink" title="什么是计划任务"></a>什么是计划任务</h3><p>每个人或多或少都有一些约会或是工作，<strong>有的工作是例行性的</strong>，例如每年一次的加薪、每个月一次的工作报告、每周一次的午餐汇报、每天需要的打卡等。<strong>有的工作则是临时发生的</strong>，例如刚好总公司有高管来访，需要你准备演讲器材等。在生活上也有此类例行或临时发生的事，例如每年爱人的生日、每天起床的时间等，要有突发性的电子产品大降价(真希望天天都有)等。</p>
+<p>那么Linux的例行性工作是如何实现的呢？咱们的Linux计划任务是通过<code>crontab</code>与<code>at</code>这两个东西完成的。这两个工具有啥异同？就让我们先来看看。</p>
+<h3 id="Linux计划任务的种类-at、cron"><a href="#Linux计划任务的种类-at、cron" class="headerlink" title="Linux计划任务的种类: at、cron"></a>Linux计划任务的种类: at、cron</h3><p>从上面的说明当中，我们可以很清楚地发现两种计划任务的方式。</p>
+<ul>
+<li>  一种是例行性的，就是每隔一定的周期要来办的事项。</li>
+<li>  一种是突发性的，就是这次做完以后就没有的那一种。</li>
+</ul>
+<p>那么在Linux下面如何处理这两个功能？那就得使用<code>at</code>与<code>crontab</code>这两个好东西。</p>
+<ul>
+<li>  <code>at</code>: at是个可以支持处理仅执行一次就结束的命令，不过要执行at时，必须要有atd这个服务的支持才行。在某些新版的Linux发行版中，atd可能默认并没有启动，那么at这个命令就会失效，不过我们的CentOS默认是启动的。</li>
+<li>  <code>crontab</code>: crontab这个命令所设置的任务将会循环地一直执行下去，可循环的时间为分钟、小时、每周、每月或每年等。crontab除了可以使用命令执行外，亦可编辑/etc/crontab来支持，至于让crontab可以生效的服务则是crond。</li>
+</ul>
+<p>下面我们来谈一谈Linux的系统到底在做什么事情，怎么有若干计划任务在执行呢？然后再回来谈一谈at与crontab这两个好东西。</p>
+<h3 id="仅执行一次的计划任务"><a href="#仅执行一次的计划任务" class="headerlink" title="仅执行一次的计划任务"></a>仅执行一次的计划任务</h3><p>首先，我们先来谈一谈单一计划任务的运行，那就是at这个命令的运行。</p>
+<h4 id="atd的启动方式"><a href="#atd的启动方式" class="headerlink" title="atd的启动方式"></a>atd的启动方式</h4><p>要使用单一计划任务时，我们的Linux系统上班必须要有负责这类计划任务的服务，那就是atd这个服务。不过并非所有的Linux发行版都默认启动，所以，某些时刻我们必须要手动将它启动才行。启动的方法很简单，就是这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart atd # 重新启动atd这个服务</span><br><span class="line">systemctl enable atd  # 让这个服务开机就自动启动</span><br><span class="line">systemctl status atd  # 查看一下atd目前的状态</span><br></pre></td></tr></table></figure>
+
+<h4 id="at的运行方式"><a href="#at的运行方式" class="headerlink" title="at的运行方式"></a>at的运行方式</h4><p>既然是计划任务，那么应该会有产生任务的方式，并且将这些任务排进计划列表中。OK！那么产生任务的方式是怎么执行的呢？事实上，<strong>我们使用at这个命令来产生所要运行的任务，并将这个任务一文本文件的方式写入/var/spool/at/目录内，该任务便能等待atd这个服务的使用与执行了</strong>，就这么简单。</p>
+<p>不过，并不是所有的人都可以执行at计划任务。为什么？因为安全的原因，很多主机被所谓的【劫持】后，最常发现的就是它们的系统当中多了很多的骇客(Cracker)程序，这些程序非常可能使用计划任务来执行或搜集系统信息，并定时地返回给骇客团体。所以，除非是你认可的账号。否则先不要让它们使用at目录。那怎么实现对at的管控呢？</p>
+<p>我么可以利用<code>/etc/at.allow</code>与<code>/etc/at.deny</code>这两个文件来实现对at的使用限制。加上这两个文件后，at的工作情况其实是这样的：</p>
+<ol>
+<li> <strong>先寻找/etc/at.allow这个文件，写在这个文件中的用户才能使用at，没有在这个文件中的用户则不能使用at(即使没有写在at.deny当中)。</strong></li>
+<li> <strong>如果/etc/at.allow不存在，就查找/etc/at.deny这个文件，写在这个at.deny中的用户则不能使用at，而没有写在这个at.deny文件中的用户，就可以使用at</strong>。</li>
+<li> <strong>如果两个文件都不存在，那么只有root可以使用at这个命令。</strong></li>
+</ol>
+<p>通过这个说明，我们知道/etc/at.allow是管理较为严格的方式，而/etc/at.deny则较为松散(因为账号没有在该文件中，就能够执行at了)。在一般的Linux发行版当中，由于假设系统上的所有用户都是可信任的，因此系统通常会保留一个空的/etc/at.deny文件，允许所有人使用at命令(您可以自行检查一下该文件)。不过，万一你不希望某些用户使用at的话，将那个用户的账号写入/etc/at.deny即可，一个账号写一行。</p>
+<h3 id="循环执行的计划任务"><a href="#循环执行的计划任务" class="headerlink" title="循环执行的计划任务"></a>循环执行的计划任务</h3><p>相对于at是仅执行一次的任务，<strong>循环执行的计划任务则是由cron(crond)这个系统服务来控制的</strong>。刚刚谈过Linux系统上面原本就有非常多的例行性计划任务，因此这个系统服务默认启动的。另外，由于用户自己也可可以执行计划任务，所以，Linux也提供用户控制计划任务的命令(crontab)。下面我们分别来聊一聊。</p>
+<h4 id="用户的设置"><a href="#用户的设置" class="headerlink" title="用户的设置"></a>用户的设置</h4><p>用户想要建立循环型计划任务时，使用的是crontab这个命令。不过，为了避免安全性的问题，与at同样的，我们可以限制使用crontab的用户账号。可以使用的配置文件有：</p>
+<ul>
+<li><code>/etc/cron.allow</code><br>  将可以使用crontab的账号写入其中，不在这个文件内的用户则不可使用crontab。</li>
+<li><code>/etc/cron.deny</code><br>  将不可以使用的crontab的账号写入其中，未记录到这个文件当中的用户，就可以使用crontab。</li>
+</ul>
+<p>与at很像。同样的，以优先级来说，/etc/cron.allow比/etc/cron.deny要优先。而判断上面，这两个文件只选择一个来限制而已。因此，建议你只要保留一个即可，免得影响自己在设置上面的判断。一般来说，系统默认保留/etc/cron.deny，你可以将不想让它执行crontab的那个用户写入/etc/cron.deny当中，一个账号一行。</p>
+<p><strong>当用户使用crontab这个命令来建立计划任务之后，该项任务就会被记录到/var/spool/cron中，而且是以账号来作为根据判断。</strong>举例来说，kevin使用crontab后，它的任务会被记录到/var/spool/cron/kevin中。但请注意，<strong>不要使用vi直接编辑该文件,因为可能由于输入语法错误，会导致无法执行cron</strong>。另外，cron执行的每一项任务都会被记录到/var/log/cron这个日志文件中，所以，如果你的Linux不知道是否被植入了木马时，也可以查找一下/var/log/cron这个日志文件。</p>
+<p>好了，那么我们就来聊一聊crontab的语法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">crontab [-u username] [-l|-e|-r]</span><br><span class="line">选项与参数:</span><br><span class="line">-u : 只有root才能执行这个任务，亦即帮其他使用者建立/删除crontab计划任务。</span><br><span class="line">-e : 编辑crontab的任务内容</span><br><span class="line">-l : 查看crontab的任务内容</span><br><span class="line">-r : 删除所有的crontab的任务内容，若仅要删除一项，请用-e去编辑。</span><br><span class="line">范例一：用kevin的身份在每天的12:00发信给自己。</span><br><span class="line">crontab -e</span><br><span class="line"># 此时会进入vi的编辑器界面让您编辑任务，注意到，每项任务都是一行。</span><br><span class="line"> 0  12  *  *  * mail -s &quot;at 12:00&quot; kevin # /home/kevin/.bashrc</span><br><span class="line">#分  时  日 月 周 【命令串】</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，任何用户只要不被列入/etc/cron.deny当中，那么它就可以直接执行【crontab -e】去编辑自己的例行性命令。整个过程就如同上面提到的，会进入vi的编辑器界面，然后以一个任务一行来编辑，编辑完毕之后输入【:wq】并存储后退出vi即可。而每项任务(每行)的格式都具有六个字段，这六个字段的意义为:</p>
+<p>代表意义</p>
+<p>分钟</p>
+<p>小时</p>
+<p>日期</p>
+<p>月份</p>
+<p>周</p>
+<p>命令</p>
+<p>数字范围</p>
+<p>0~59</p>
+<p>0~23</p>
+<p>1~31</p>
+<p>1~12</p>
+<p>0~7</p>
+<p>需要执行的命令</p>
+<p>比较有趣的是那个【周】，周的数字为0或7时，都代表【星期天】的意思。另外，还有下面这些特殊字符：</p>
+<p>特殊字符</p>
+<p>代表意义</p>
+<p>*(星号)</p>
+<p>代表任何时刻都接受的意思。举例来说，范例一内那个日、月、周都是*，就代表着【不论何月、何日的星期几的12:00都执行后续命令】的意思</p>
+<p>,(逗号)</p>
+<p>代表分隔时段的意思。举例来说，如果要执行的任务是3:00与6:00时，就会是：<br>0 3,6 * * * command<br>时间参数还是有五栏，不过第二栏是3,6，代表3与6都适合</p>
+<p>-(减号)</p>
+<p>代表一段时间范围内，举例来说，8点到12点之间的每小时的20分都执行一项任务：<br>20 8-12 * * * command<br>仔细看到第二栏变成8-12，代表8、9、10、11、12都适用的意思</p>
+<p>/n(斜线)</p>
+<p>那个n代表数字，亦即【每隔n单位间隔】的意思，例如没5分钟执行一次，则:<br><em>/5 * * * * command<br>很简单吧！用</em>/5来搭配，也可以写成0-59/5，相同意思</p>
+<p>我们就来搭配几个例子练习看看。</p>
+<p>1.假如你的女朋友生日是5月2日，你想要在5月1日的23:59发一封信给她，这封信的内容已经写在/home/kevin/lover.txt内了，该如何执行？</p>
+<p>答：直接执行crontab -e之后，编辑成为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">59 23 1 5 * mail kiki &lt; /home/kevin/lover.txt</span><br></pre></td></tr></table></figure>
+
+<p>那样的话，每年kiki都会受到你的这封信。（当然，信的内容就要每年变一变。）</p>
+<p>2.假如每五分钟需要执行/home/kevin/test.sh一次，又该如何？</p>
+<p>答：同样使用crontab -e进入编辑:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/5 * * * * /home/kevin/test.sh</span><br></pre></td></tr></table></figure>
+
+<p>3.假如你每星期六都与朋友有约，那么想要每个星期五下午4:30告诉你朋友不要忘记星期六的约会，则：</p>
+<p>答：还是crontab -e。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30 16 * * 5 mailfriend@his.server.name &lt; /home/kevin/friend.txt</span><br></pre></td></tr></table></figure>
+
+<p>真的很简单吧！呵呵！那么，该如何查询用户目前的crontab内容呢？我们可以这样来看看:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br><span class="line"># 注意，若仅要删除一项任务的话，必须用crontab -e去编辑，如果删除全部任务，才使用crontab -r。</span><br></pre></td></tr></table></figure>
+
+<p>看到了吗？如果使用crontab -r,那么再用crontab -l查看时发现【整个内容会不见了】，所以请注意，【如果只是要删除某个crontab的任务选项，那么请使用crontab -e来重新编辑即可】，如果使用-r的参数，是会将所有的crontab数据内容都删除掉的，千万注意了。</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192624512-933932172.png"></p>
+<h2 id="压缩与解压缩"><a href="#压缩与解压缩" class="headerlink" title="压缩与解压缩"></a>压缩与解压缩</h2><p>在Linux下面有相当多的压缩命令可以运行，这些压缩命令可以让我们更方便地从网络上面下载容量较大的文件。<strong>此外，我们知道在Linux下面，扩展名没有什么特殊的意义。</strong> 不过，针对这些压缩命令所产生的压缩文件，为了方便记忆，还是会有一些特殊的命名方式，就让我们来看看吧！</p>
+<h3 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a>文件压缩</h3><p>什么是文件压缩呢？我们稍微谈一谈它的原理，目前我们使用的计算机系统中都是使用所谓的字节单位来计量。不过，事实上，计算机最小的计量单位应该是bit才对，此外，我们也知道 1字节=8比特(1Byte=8bit),但是如果今天我们只是记录一个数字，即1这个数字，它会如何记录？假设一个字节可以看成下面的模样：</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192640644-654786465.png"></p>
+<blockquote>
+<p>由于 1Byte=8bit，所以每个字节当中会有8个空格，而每个空格只可以是0、1</p>
+</blockquote>
+<p>由于我们记录的数字是1，考虑计算机所谓的二进制，如此一来，1会在最右边占据1个位，而其他的7个位将会自动地被填上0.如下图所示</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192648748-773199929.png"></p>
+<p>你看看，其实在这样的例子中，那7个位应该是空的才对。不过，为了要满足目前我们的操作系统数据的读写，所以就会将该数据转为字节的形式来记录。而一些聪明的计算机工程师就利用一些复杂的计算方式，将这些没有使用到的空间【丢】出来，以让文件占用的空间变小，这就是压缩的技术。<br>另一种压缩技术也很有趣，它是将重复的数据进行统计记录。举例来说，如果你的数据为【111······】共有100个1时，那么压缩技术会记录为【100个1】而不是真的有100个1的位存在。这样也能够精简文件记录的容量，非常有趣吧！<br>简单地说，你可以将它想成，其实文件里面有相当多的空间存在，并不是完全填满的，而压缩技术就是将这些空间填满，以让整个文件占用的容量下降。不过，这些压缩过的文件并无法直接被我们的操作系统所使用，因此，若要使用这些被压缩过的文件数据，则必须将它还原回未压缩前的模样，那就是所谓的解压缩。而至于<strong>压缩后与压缩的文件所占用的磁盘空间大小，就可以被称为是压缩比</strong>。<br>这个压缩与解压缩的操作有什么好处呢？<br>1.最大的好处就是压缩过的文件容量变小了，所以你的硬盘无形之中就可以容纳更多的数据。<br>2.此外，在一些网络数据的传输中，也会由于数据量的降低，好让网络带宽可以用来做更多的工作，而不是老卡在一些大型文件传输上面。</p>
+<h3 id="Linux系统常见压缩命令"><a href="#Linux系统常见压缩命令" class="headerlink" title="Linux系统常见压缩命令"></a>Linux系统常见压缩命令</h3><p>在Linux的环境中，压缩文件的扩展名大多是: *.tar、*.tar.gz、*.gz、*.Z、*.bz2、*.xz。为什么会有这样的扩展名？不是说Linux的扩展名没有什么作用吗？<br>这是因为Linux支持的压缩命令非常多，且不同的命令所用的压缩技术并不相同，当然彼此之间可能就无法互通/解压缩文件。所以，当你下载到某个文件时，自然就需要知道该文件是由哪种压缩命令所制作出来的，好用来对照对照着解压缩，也就是说，虽然Linux文件的属性基本上是与文件名没有绝对关系的，但是为了帮助我们人类小小的脑袋，所以适当的扩展名还是必要的，下面我们就列出几个常见的压缩文件扩展名:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">*.gz         gzip程序压缩的文件</span><br><span class="line">*.bz2        bzip2程序压缩的文件</span><br><span class="line">*.xz         xz程序压缩的文件</span><br><span class="line">*.zip        zip程序压缩的文件</span><br><span class="line">*.Z          compress程序压缩的文件</span><br><span class="line">*.tar        tar程序打包的文件，并没有压缩过</span><br><span class="line">*.tar.gz     tar程序打包的文件，并且经过gzip的压缩</span><br><span class="line">*.tar.bz2    tar程序打包的文件，并且经过bzip2的压缩</span><br><span class="line">*.tar.xz     tar程序打包的文件，并且经过xz的压缩</span><br></pre></td></tr></table></figure>
+
+<p>Linux常见的压缩命令就是gzip、bzip2以及最新的xz，至于compress已经不流行了。为了支持windows常见的zip，其实Linux也早就有zip命令了。gzip是由GNU计划所开发出来的压缩命令，该命令支持已经替换了compress。后台GNU又开发出了bzip2及xz这几个压缩比更好的压缩命令。不过，这些命令通常仅能针对一个文件来压缩与解压缩，如此一来，每次压缩与解压缩都要一大堆文件，岂不烦人？此时，这个所谓的【打包软件,tar】就显得很重要。<br>这个tar可以将很多文件打包成一个文件，甚至是目录也可以这么玩。不过，单纯的tar功能仅仅是打包而已，即将很多文件结合为一个文件，事实上，它并没有提供压缩的功能，后台，GNU计划中，将整个tar与压缩的功能结合在一起，如此一来，提供用户更方便且更强大的压缩与打包功能，下面我们就来谈一谈这些在Linux下面基本的压缩命令。</p>
+<h4 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h4><p><code>gzip</code>可以说是应用最广的压缩命令了，目前gzip可以解开compress、zip和gzip等软件所压缩的文件，至于gzip所建立的压缩文件为*.gz，让我们来看看这个命令的语法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gzip [-cdtvn] 文件名</span><br><span class="line">选项与参数：</span><br><span class="line">-c: 将压缩的数据输出到屏幕上，可通过数据流重定向来处理;</span><br><span class="line">-d: 解压缩的参数;</span><br><span class="line">-t: 可以用来检验一个压缩文件的一致性，看看文件有无错误;</span><br><span class="line">-v: 可以显示出原文件/压缩文件的压缩比等信息;</span><br><span class="line">-n: n为数字的意思,代表压缩等级，-1最快，但压缩比最差，-9最慢，但是压缩比最好，默认是-6</span><br></pre></td></tr></table></figure>
+
+<p>示例1：压缩文件(gzip -v 文件名)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192703155-1546702011.png"></p>
+<p>示例2：解压缩文件(gzip -d 文件名)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192711615-1301314245.png"></p>
+<p>示例3:按照指定压缩比压缩(gzip -9 文件名)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192719035-652284179.png"></p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192733605-750777743.png"></p>
+<p>示例4：查看压缩文件的内容(zcat 文件名)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192748215-1853256154.png"></p>
+<p>示例5：压缩为指定文件名(gzip -c 文件名 &gt; 指定文件名)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192836135-1810220143.png"></p>
+<p>当你使用gzip进行压缩时，<strong>在默认的状态下原本的文件会被压缩成为.gz后缀的文件，源文件就不存在了</strong>，这点与一般习惯使用Windows做压缩的朋友所熟悉的情况不同，要注意。cat/more/less可以使用不同的方式来读取纯文本文件，那么zcat/zmore/zless则可以对应于cat/more/less的方式来读取纯文件文件被压缩后的压缩文件。</p>
+<h4 id="bzip2"><a href="#bzip2" class="headerlink" title="bzip2"></a>bzip2</h4><p>若说gzip是为了替换compress并提供更好的压缩比而成立的，那么bzip2则是为了替换gzip并提供更加的压缩比而来。bzip2真是很不错的东西，这玩意的压缩比竟然比gzip还要好，至于bzip2的用法几乎与gzip相同,看看下面的用法吧!</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bzip2 [-cdkzvn] 文件名</span><br><span class="line">选项与参数：</span><br><span class="line">-c: 将压缩的数据输出到屏幕上，可通过数据流重定向来处理;</span><br><span class="line">-d: 解压缩的参数;</span><br><span class="line">-k: 保留原始文件，而不是删除原始文件；</span><br><span class="line">-z: 压缩的参数(默认值，可以不加)；</span><br><span class="line">-v: 可以显示出原文件/压缩文件的压缩比等信息;</span><br><span class="line">-n: n为数字的意思,代表压缩等级，-1最快，但压缩比最差，-9最慢，但是压缩比最好，默认是-6</span><br></pre></td></tr></table></figure>
+
+<p>示例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bzip2 -v 待压缩文件名</span><br><span class="line">bzip2 -d 压缩后的文件名</span><br><span class="line">bzip2 -9 -c 待压缩的文件名 &gt; 自定义压缩文件名</span><br></pre></td></tr></table></figure>
+
+<h4 id="xz"><a href="#xz" class="headerlink" title="xz"></a>xz</h4><p>虽然bzip2已经具有很棒的压缩比，不过显然某些自由软件开发者还不满足，因此后来还推出了xz这个压缩比更高的软件。这个软件的用法也跟gzip/bzip2几乎一模一样，那我们就来看一看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">xz [-cdtlkn] 文件名</span><br><span class="line">选项与参数：</span><br><span class="line">-c: 将压缩的数据输出到屏幕上，可通过数据流重定向来处理;</span><br><span class="line">-d: 解压缩的参数;</span><br><span class="line">-k: 保留原始文件，而不是删除原始文件；</span><br><span class="line">-l: 列出压缩文件的相关信息；</span><br><span class="line">-t: 测试压缩文件的完整性，看看有没有错误;</span><br><span class="line">-z: 压缩的参数(默认值，可以不加)；</span><br><span class="line">-n: n为数字的意思,代表压缩等级，-1最快，但压缩比最差，-9最慢，但是压缩比最好，默认是-6</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xz -v 待压缩的文件名</span><br><span class="line">xz -l 压缩后的文件名</span><br><span class="line">xz -d 压缩后的文件名</span><br><span class="line">xz -k 待压缩的文件名</span><br></pre></td></tr></table></figure>
+
+<h3 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h3><p>前面谈到的命令大多仅能针对单一文件来进行压缩，虽然gzip、bzip2、xz也能够针对目录来进行压缩，不过，这几个命令对目录的压缩指的是将目录内的所有文件【分别】进行压缩的操作。而不像在Windows的系统，可以使用类似WinRAR这一类的压缩软件来将好多数据包成一个文件的样式。<br>这种将多个文件或目录包成一个大文件的命令功能，我们可以称它是一种打包命令，那Linux有没有这种打包命令？有，那就是大名鼎鼎的tar,tar可以将多个目录或文件打包成一个大文件，同时还可以通过gzip、bzip2、xz的支持，将该文件同时进行压缩。更有趣的是，由于tar的使用太广泛了，目前Windows的WinRAR也支持.tar.gz文件名的解压缩。</p>
+<h4 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h4><p>tar的选项与参数特别多，我们只讲几个常用的选项，更多选项您可以自行man tar查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tar [-z|-j|-J] [cv] [-f 待建立的新文件名] filename... &lt;== 打包与压缩。</span><br><span class="line">tar [-z|-j|-J] [cv] [-f 既有的tar文件名]  &lt;== 查看文件名</span><br><span class="line">tar [-z|-j|-J] [xv] [-f 既有的tar文件名]  &lt;== 解压缩</span><br><span class="line">选项与参数:</span><br><span class="line">-c: 建立打包文件，可搭配-v来查看过程中被打包的文件名(filename);</span><br><span class="line">-t: 查看打包文件的内容含有那些文件名，重点在查看【文件名】；</span><br><span class="line">-x: 解包或解压缩功能，可以搭配-C(大写)在特定目录解压，特别留意的是，-c、-t、-x不可同时出现在一串命令行中；</span><br><span class="line">-z: 通过gzip的支持进行压缩/解压缩: 此时文件名最好为*.tar.gz；</span><br><span class="line">-j: 通过bzip2的支持进行压缩/解压缩：此时文件名最好为*.tar.bz2;</span><br><span class="line">-J: 通过xz的支持进行压缩/解压缩: 此时文件名最好为 *.tar.xz，特别留意，-z、-j、-J不可以同时出现在一串命令行中；</span><br><span class="line">-v: 在压缩/解压缩的过程中，将正在处理的文件名显示出来;</span><br><span class="line">-f filename: -f后面要立刻接要被处理的文件名,建议-f单独写一个选项(比较不会忘记)。</span><br><span class="line">-C 目录: 这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项</span><br><span class="line">-p(小写): 保留备份数据的原本权限与属性，常用于备份(-c)重要的配置文件；</span><br><span class="line">-P(大写): 保留绝对路径，亦即允许备份数据中含有根目录存在之意</span><br></pre></td></tr></table></figure>
+
+<p>其实最简单的使用tar就只要记住下面的命令即可:</p>
+<ul>
+<li>  压缩: tar -zcv -f filename.tar.gz 要被压缩的文件或目录名称；</li>
+<li>  查询: tar -ztv -f filename.tar.gz</li>
+<li>  解压缩: tar -zxv -f filename.tar.gz -C 欲解压缩的目录</li>
+</ul>
+<p>示例:</p>
+<p>tar -zcvf 文件名.tar.gz 文件名(目录)</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192900483-1086815908.png"></p>
+<p>tar -ztvf 文件名.tar.gz</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192913059-830902695.png"></p>
+<p>tar -zxvf 文件名.tar.gz</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192923125-55369229.png"></p>
+<h2 id="源代码与Tarball"><a href="#源代码与Tarball" class="headerlink" title="源代码与Tarball"></a>源代码与Tarball</h2><p>本文主要是为了让你了解如何将开发源代码的程序设计、加入库的原理、通过编译而成为可以执行的二进制程序，最后该执行文件可被我们使用的一连串过程。</p>
+<ul>
+<li>  <code>开放源代码:</code>就是程序代码，写给人类看的程序语言，但机器并不认识，所以无法执行；</li>
+<li>  <code>编译器:</code> 将程序转译成为机器看得懂的语言，就类似翻译者的角色；</li>
+<li>  <code>可执行文件:</code> 经过编译器变成的二进制程序，机器看得懂所以可以执行。</li>
+</ul>
+<h3 id="什么是make与configure"><a href="#什么是make与configure" class="headerlink" title="什么是make与configure"></a>什么是make与configure</h3><p>事实上，使用类似 <code>gcc</code>的编译器来进行编译的过程并不简单，因为一个软件并不会仅有一个程序文件，而是有一堆程序代码文件。所以除了每个主程序与子程序均需要写上一条编译过程的命令外，还需要写上最终的链接程序。程序代码短的时候还好，如果是类似WWW服务器软件(例如Apache)，或是类似内核的源代码，动辄数百MB的数据量，编译命令会写到疯掉，这个时候，我们就可以使用make这个命令的相关功能来进行编译过程的简化。<br>当执行make时，make会在当前的目录查找Makefile(or makefile)这个文本文件，而Makefile里面则记录了源代码如何编译的详细信息。make会自动地判别源代码是否经过变动了，而自动更新执行文件，是软件工程师相当好用的一个辅助工具。</p>
+<h3 id="什么是Tarball的软件"><a href="#什么是Tarball的软件" class="headerlink" title="什么是Tarball的软件"></a>什么是Tarball的软件</h3><p>所谓的Tarball文件，其实就是将软件的所有源代码文件先以tar打包，然后再以压缩技术来压缩，通常最常见的就是以gzip来压缩。因为利用了tar与gzip的功能，所以<strong>Tarball文件一般的扩展名就会写成*.tar.gz或是简写为*.tgz</strong>，不过，近来由于bzip2与xz的压缩率较佳，所以Tarball渐渐地以bzip2及xz的压缩技术来替换gzip,因此文件名也会变成*.tar.bz2、*.tar.xz之类的。所以说Tarball是一个软件包，你将它解压缩之后，里面的文件通常就会有:</p>
+<ul>
+<li>  源代码文件；</li>
+<li>  检测程序文件(可能是configure或config等文件)；</li>
+<li>  本软件的简易说明与安装说明(INSTALL或README)。</li>
+</ul>
+<p>其中最重要的是那个 INSTALL 或是 README 这两个文件，通常你只要能够参考这两个文件，Tarball软件的安装是很简单的。</p>
+<h3 id="Tarball安装的基本步骤"><a href="#Tarball安装的基本步骤" class="headerlink" title="Tarball安装的基本步骤"></a>Tarball安装的基本步骤</h3><p>以Tarball方式发布的软件是需要重新编译可执行的二进制程序。而Tarball是以tar这个命令来打包与压缩的文件，所以，当然就需要先将Tarball解压缩，然后到源代码所在的目录下进行makefile的建立，再以make来进行编译与安装的操作。所以整个安装的基础操作大多是这样的：</p>
+<ol>
+<li> 获取原始文件：将tarball文件在/usr/local/src目录下解压缩；</li>
+<li> 获取步骤流程：进入新建立的目录下面，去查看INSTALL与README等相关文件内容(很重要的步骤);</li>
+<li> 依赖属性软件安装：根据INSTALL/README的内容查看并安装好一些依赖的软件(非必要);</li>
+<li> 建立makefile：以自动检测程序(configure或config)检测操作环境，并建立Makefile这个文件;</li>
+<li> 编译：用make这个程序，并使用该目录下的Makefile作为它的参数配置文件，来进行make(编译或其它)的操作；</li>
+<li> 安装：以make这个程序，并以Makefile这个参数配置文件，根据install这个目录(target)的指定来安装到正确的路径。</li>
+</ol>
+<p>注意到上面的第二个步骤，通常每个软件在发布的时候，都会附上名为INSTALL或是README的说明文件，这些说明文件请【确实详细地】阅读过一遍，通常这些文件会记录这个软件的安装要求、软件的工作项目与软件的安装参数设置及技巧等，只要仔细读完这些文件，基本上，要安装好Tarball的文件，都不会有什么大问题。</p>
+<p>至于makefile在制作出来之后，里面会有相当多的目标(target)，最常见的就是install与clean，通常【make clean】代表着将目标文件清除，【make】则是将源代码进行进行编译而已。注意，编译完成的可执行文件与相关的配置文件还在源代码所在的目录当中。因此，最后要进行【make install】来将编译完成的所有东西都安装到正确的路径中，这样就可以使用该软件。<br>ok，我们下面大概提一下大部分的Tarball软件安装的命令执行方式:</p>
+<ol>
+<li><strong>./configure</strong><br> 这个步骤就是<strong>建立Makefile这个文件</strong>。通常程序开发者会写一个脚本来检查你的Linux系统、相关的软件属性等，这个步骤相当的重要，因为未来你的安装信息都是在这一步骤内完成的。另外，这个步骤的相关信息应该要参考一下该目录下的README或INSTALL相关的文件。</li>
+<li><strong>make clean</strong><br> make会读取Makefile中关于clean的工作。这个步骤不一定会有，但是希望执行一下，因为它<strong>可以移除目标文件</strong>。因为谁也不确定源代码里面到底有没有包含上次编译过的目标文件(*.o)存在，所以当然还是清楚一下比较妥当，至少等一下新编译出来的执行文件我们可以确定是自己的机器所编译完成的嘛！</li>
+<li><strong>make</strong><br> make会根据Makefile当中的默认设置进行编译的操作。编译的操作主要是使用gcc来将源代码编译成为可以被执行的目标文件，但是这些目标文件通常还需要链接一些函数库之类后，才能产生一个完整的执行文件。使用make就是要将源代码编译成为可以被执行的文件，而这个可执行文件会放置在目前所在的目录之下，尚未被安装到预定安装的目录中。</li>
+<li><strong>make install</strong><br> 通常这就是最后的安装步骤了，make会根据Makefile这个文件里面关于install的选项，将上一个步骤所编译完成的内容安装到预定的目录中，从而完成安装。</li>
+</ol>
+<p>请注意，上面的步骤是一步一步来进行的，而<strong>其中只要一个步骤无法成功，那么后续的步骤就完全没有办法进行</strong>，因此，要确定每个步骤都是成功的才可以。举个例子来说，万一今天你在<code>./configure</code>就不成功了，那么就表示Makefile无法被建立起来，要知道，后面的步骤都是根据Makefile来进行的，既然无法建立Makefile,后的步骤当然无法成功。</p>
+<p>另外，如果在make无法成功的话，那就表示源文件无法被编译成可执行文件，那么make install主要是将编译完成的文件放置到文件系统中，既然都没有可用的执行文件了，怎么进行安装？所以，要每一个步骤都正确无误才能往下继续做。此外，如果安装成功，并且是安装在独立的一个目录中，例如在/usr/local/packages这个目录中，那么你就必须手动将这个软件的man page写入到<code>/etc/man_db.conf</code>中。</p>
+<h3 id="Tarball安装建议"><a href="#Tarball安装建议" class="headerlink" title="Tarball安装建议"></a>Tarball安装建议</h3><p><strong>为什么Tarball要在/usr/local/src里面解压缩？</strong>，基本上，在默认的情况下，原本的Linux发行版发布安装的软件大多是在/usr里面，而用户自行安装的软件则建议放置在/usr/local里面，这是考虑到管理用户所安装软件的便利性。</p>
+<p>为什么？我们知道几乎每个软件都会提供联机帮助的服务，那就是info与man的功能。在默认的情况下，man会去查找/usr/local/man里面的说明文件，因此，如果我们将软件安装在/usr/local下面的话，那么自然安装完成之后，该软件的说明文件就可以被找到了。所以，通常我们会建议大家将自己安装的软件放置在/usr/local下，至于源代码(Tarball)则建议防止在/usr/local/src(src为source的缩写)下面。</p>
+<p><strong>但是</strong>，如果将软件直接安装在/usr/local下，由于/usr/local原本就默认就有/etc、/bin、/lib、/man，所以安装其它软件产生的一些文件也会在上述几个目录里面，因此，如果你都安装在这个目录下的话，那么未来再想要升级或删除的时候，就会比较难以查找文件的来源。所以建议如果你的软件名是software,建议安装在/usr/local/softwsare目录下，这样单一软件的文件都在同一个目录下，那么删除该软件就简单的多了，<strong>只要将该目录删除即可视为该软件已经被删除</strong>。</p>
+<p>由于Tarball在升级与安装上面具有这些特色，亦即Tarball在反安装上面具有比较高的难度(如果你没有好好规划的话)，所以，为了方便Tarball的管理，通常鸟哥会这样建议用户:</p>
+<ol>
+<li> 最好将Tarball的原始数据解压到/usr/local/src当中；</li>
+<li> 安装时，最好安装到/usr/local这个默认路径下；</li>
+<li> 考虑到未来的反安装步骤，最好可以将每个软件单独安装在/usr/local下面；</li>
+<li>为安装到单独目录的软件的man page加入man path查找:<br> 如果你安装的软件放置到/usr/local/software/,那么在man page查找的设置中，可能就要在/etc/man_db.conf内的40~50行左右处，写入如下的一行:<br> MANPATH_MAP /usr/local/software/bin /usr/local/software/man<br> 这样才可以使用man来查询该软件的在线文件。</li>
+</ol>
+<h2 id="vim编辑器"><a href="#vim编辑器" class="headerlink" title="vim编辑器"></a>vim编辑器</h2><p>基本上vi共分为3种模式，分别是<strong>一般命令模式、编辑模式与命令行模式</strong>。</p>
+<p><img src="/../images/linux%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/720430-20210111192201564-1046228339.png"></p>
+<p><strong>一般命令模式(command mode)</strong></p>
+<p>以vi打开一个文件就直接进入一般命令模式了(这是默认的模式，也成为一般模式)。在这个模式中，你可以使用【上下左右】按键来移动光标，你可以使用【删除字符】或【删除整行】来处理文件内容，也可以使用【复制、粘贴】来处理你的文件内容。</p>
+<p><strong>编辑模式(insert mode)</strong></p>
+<p>在一般命令模式中可以进行删除、复制、粘贴等的操作，但是却无法编辑文件的内容。要等到你按下【i、I、o、O、a、A、r、R】等任何一个字母之后才会进入编辑模式。注意了，通常在Linux中，按下这些按键时，在界面的左下方会出现【INSERT】或【REPLACE】的字样，此时才可以进行编辑，而如果要回到一般命令模式时，则必须要按下【Esc】这个按键即可退出编辑模式。</p>
+<p><strong>命令行模式(command-line mode)</strong></p>
+<p>在一般模式当中，输入【😕?】三个中的任何一个按钮，就可以将光标移动到最下面的一行。在这个模式当中，可以提供你【查找数据】的操作，而读取、保存、批量字符替换、退出vi、显示行号等的操作则是在此模式中完成。</p>
+<p><strong>一般命令模式可与编辑模式及命令行模式切换，但编辑模式与命令行模式之间不可互相切换。</strong></p>
+<p>常用vim命令:</p>
+<p><strong>插入命令</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>i</code></p>
+<p>当前位置插入</p>
+<p><code>I</code></p>
+<p>行首插入</p>
+<p><code>a</code></p>
+<p>当前位置后插入</p>
+<p><code>A</code></p>
+<p>行尾插入</p>
+<p><code>o</code></p>
+<p>下一新行插入</p>
+<p><code>O</code></p>
+<p>上一新行插入</p>
+<p><code>s</code></p>
+<p>删除光标所在的字符，当前位置插入</p>
+<p><code>S</code></p>
+<p>删除光标所在行,当前行插入</p>
+<p><strong>移动光标</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>h</code></p>
+<p>光标左移</p>
+<p><code>j</code></p>
+<p>光标下移</p>
+<p><code>k</code></p>
+<p>光标上移</p>
+<p><code>l</code></p>
+<p>光标右移</p>
+<p><code>^</code></p>
+<p>光标移动到行首</p>
+<p><code>$</code></p>
+<p>光标移动到行尾</p>
+<p><code>gg</code></p>
+<p>光标移动到文件首行</p>
+<p><code>G</code></p>
+<p>光标移动到文件尾行</p>
+<p><code>ngg</code></p>
+<p>n为数字，移动到这个文件的第n行</p>
+<p><code>nG</code></p>
+<p>n为数字，移动到这个文件的第n行</p>
+<p><strong>查找与替换</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>/word</code></p>
+<p>向光标之下寻找一个名称为word的字符串。例如要在文件内查找itbsl这个字符串，就输入/itbsl即可(常用)</p>
+<p><code>?word</code></p>
+<p>向光标之上寻找一个字符名称为word的字符串</p>
+<p><code>n</code></p>
+<p>这个n是英文按键，代表【重复前一个查找的操作】。举例来说，如果刚刚我们执行/itbsl去向下查找itbsl这个字符串，则按下n后，会向下继续查找下一个名称为itbsl的字符串，如果是执行?itbsl的话，那么按下n则会向上继续查找名称为itbsl的字符串</p>
+<p><code>N</code></p>
+<p>这个N是英文按键，与n刚好相反，为【反向】进行前一个查找操作，例如/itbsl后，按下N则表示【向上】查找itbsl</p>
+<p><code>:n1,n2s/word1/word2/g</code></p>
+<p>n1与n2为数字，在第n1与n2行之间寻找word1这个字符串，并将该字符串替换为word2,举例来说，在100到200行之间查找itbsl并替换为ITBSL，则 <code>:100,200s/itbsl/ITBSL/g</code>(常用)</p>
+<p><code>:1,$s/word1/word2/g</code></p>
+<p>从第一行到最后一行寻找word1字符串，并将该字符串替换为word2(常用)</p>
+<p><code>:1,$s/word1/word2/gc</code></p>
+<p>从第一行到最后一行寻找word1字符串，并将该字符串替换为word2，且在替换前显示提示字符给用户确认(confirm)是否需要替换(常用)</p>
+<p><strong>删除、复制与粘贴</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>x</code>与<code>X</code></p>
+<p>在一行当中，x为向后删除一个字符(相当于[del]按键)，X为向前删除一个字符(相当于[Backspace]即退格键)(常用)</p>
+<p><code>nx</code></p>
+<p>n为数字，连续向后删除n个字符。举例来说，我要连续删除10个字符，【10x】</p>
+<p><code>dd</code></p>
+<p>删除(剪切)光标所在的那一整行(常用)</p>
+<p><code>ndd</code></p>
+<p>n为数字,删除(剪切)光标所在的向下n行，例如20dd则是删除(剪切)20行(常用)</p>
+<p><code>d1G</code></p>
+<p>删除(剪切)光标所在到第一行的所有数据</p>
+<p><code>dG</code></p>
+<p>删除(剪切)光标所在到最后一行的所有数据</p>
+<p><code>d$</code></p>
+<p>删除(剪切)光标所在处，到该行的最后一个字符</p>
+<p><code>d0</code></p>
+<p>删除(剪切)光标所在处，到该行的最前面的一个字符</p>
+<p><code>yy</code></p>
+<p>复制光标所在的那一行(常用)</p>
+<p><code>nyy</code></p>
+<p>n为数字，复制光标所在的向下n行，例如20yy则是复制20行(常用)</p>
+<p><code>y1G</code></p>
+<p>复制光标所在行到第一行的所有数据</p>
+<p><code>yG</code></p>
+<p>复制光标所在行到最后一样的所有数据</p>
+<p><code>y0</code></p>
+<p>复制光标所在的那个字符到该行行首的所有数据</p>
+<p><code>y$</code></p>
+<p>复制光标所在的那个字符到该行行尾的所有数据</p>
+<p><code>yw</code></p>
+<p>拷贝一个单词</p>
+<p><code>nyw</code></p>
+<p>拷贝n个单词(n表示数字)</p>
+<p><code>p</code></p>
+<p>后置粘贴</p>
+<p><code>P</code></p>
+<p>前置粘贴</p>
+<p><strong>保存</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>:w</code></p>
+<p>直接保存</p>
+<p><code>:w file</code></p>
+<p>保存成新文件</p>
+<p><strong>退出</strong>:</p>
+<p><strong>强制执行</strong>:</p>
+<p>命令</p>
+<p>说明</p>
+<p><code>:wq!</code></p>
+<p>强制保存退出</p>
+<p><code>:q!</code></p>
+<p>强制退出</p>
+<p><strong>显示行号</strong>:</p>
+<p><strong>配置系统</strong>:</p>
+<ul>
+<li>全局配置<br>  <code>/etc/virc</code></li>
+<li>用户级别<br>  <code>~/vimrc</code></li>
+</ul>
+<p><strong>vim搜索</strong></p>
+<p>命令</p>
+<p>说明</p>
+<p><code>/字符串</code></p>
+<p>比如搜索user,输入/user</p>
+<p>按下回车之后，可以看到vim已经把光标移动到该字符处和高亮了匹配的字符串<br>查看下一个匹配，按下n(小写n)<br>跳转到上一个匹配，按下N（大写N）<br>搜索后，我们打开别的文件，发现也被高亮了，怎么关闭高亮？<br>命令模式下，输入:<code>nohlsearch</code> 也可以:<code>set nohlsearch</code>； 当然，可以简写，<code>noh</code>或者 <code>set noh</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/23/CentOS7%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/" rel="prev" title="VM Fusion CentOS7配置静态IP">
+      <i class="fa fa-chevron-left"></i> VM Fusion CentOS7配置静态IP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/23/kubectl%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8/" rel="next" title="kubectl自动补全">
+      kubectl自动补全 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E7%9B%AE%E5%BD%95%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">根目录说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD"><span class="nav-number">1.2.</span> <span class="nav-text">挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell"><span class="nav-number">1.3.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF"><span class="nav-number">1.4.</span> <span class="nav-text">终端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E7%9B%B8%E5%85%B3"><span class="nav-number">2.</span> <span class="nav-text">硬件相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="nav-number">2.1.</span> <span class="nav-text">修改主机名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BCentOS%E7%89%88%E6%9C%AC"><span class="nav-number">2.2.</span> <span class="nav-text">查看CentOS版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BCPU%E6%80%BB%E6%A0%B8%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">查看CPU总核数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%A1%E6%AD%A3CentOS7%E6%97%B6%E9%97%B4"><span class="nav-number">2.4.</span> <span class="nav-text">校正CentOS7时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9C%80%E5%A4%A7%E6%89%93%E5%BC%80%E6%95%B0"><span class="nav-number">2.5.</span> <span class="nav-text">修改文件最大打开数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E7%AB%AF%E5%8F%A3%E6%9C%80%E5%A4%A7%E7%9B%91%E5%90%AC%E9%98%9F%E5%88%97%E7%9A%84%E9%95%BF%E5%BA%A6"><span class="nav-number">2.6.</span> <span class="nav-text">修改系统端口最大监听队列的长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="nav-number">2.7.</span> <span class="nav-text">修改内核内存分配策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">Linux文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">3.1.</span> <span class="nav-text">实用快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#locate%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%9F%A5%E6%89%BE"><span class="nav-number">3.2.</span> <span class="nav-text">locate：快速查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%9F%A5%E6%89%BE"><span class="nav-number">3.3.</span> <span class="nav-text">find：深入查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ls%EF%BC%9A%E5%88%97%E5%87%BA%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">3.4.</span> <span class="nav-text">ls：列出文件和目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#du%EF%BC%9A%E6%98%BE%E7%A4%BA%E7%9B%AE%E5%BD%95%E5%8C%85%E5%90%AB%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F"><span class="nav-number">3.5.</span> <span class="nav-text">du：显示目录包含的文件大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cat%EF%BC%9A%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">3.6.</span> <span class="nav-text">cat：显示文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#less%EF%BC%9A%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">3.7.</span> <span class="nav-text">less：显示文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#head%EF%BC%9A%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%80%E5%A4%B4"><span class="nav-number">3.8.</span> <span class="nav-text">head：显示文件的开头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tail%EF%BC%9A%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E5%B0%BE"><span class="nav-number">3.9.</span> <span class="nav-text">tail：显示文件的结尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#touch%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%A9%BA%E7%99%BD%E6%96%87%E4%BB%B6"><span class="nav-number">3.10.</span> <span class="nav-text">touch：创建一个空白文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mkdir%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%9B%AE%E5%BD%95"><span class="nav-number">3.11.</span> <span class="nav-text">mkdir：创建一个目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cp%EF%BC%9A%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95"><span class="nav-number">3.12.</span> <span class="nav-text">cp：拷贝文件或目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rm%EF%BC%9A%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">3.13.</span> <span class="nav-text">rm：删除文件和目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ln%EF%BC%9A%E5%88%9B%E5%BB%BA%E9%93%BE%E6%8E%A5"><span class="nav-number">3.14.</span> <span class="nav-text">ln：创建链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grep%EF%BC%9A%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE"><span class="nav-number">3.15.</span> <span class="nav-text">grep：筛选数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wc%EF%BC%9A%E6%96%87%E4%BB%B6%E7%BB%9F%E8%AE%A1"><span class="nav-number">3.16.</span> <span class="nav-text">wc：文件统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uniq%EF%BC%9A%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%86%85%E5%AE%B9"><span class="nav-number">3.17.</span> <span class="nav-text">uniq：删除文件中的重复内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scp%EF%BC%9A%E7%BD%91%E9%97%B4%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.18.</span> <span class="nav-text">scp：网间拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rsync%EF%BC%9A%E5%90%8C%E6%AD%A5%E5%A4%87%E4%BB%BD"><span class="nav-number">3.19.</span> <span class="nav-text">rsync：同步备份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E3%80%81%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E7%AE%A1%E9%81%93%E7%AC%A6%E5%8F%B7"><span class="nav-number">4.</span> <span class="nav-text">流、重定向和管道符号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#stdin%E3%80%81stdout%E3%80%81stderr"><span class="nav-number">4.1.</span> <span class="nav-text">stdin、stdout、stderr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gt-%E5%92%8C-gt-gt"><span class="nav-number">4.2.</span> <span class="nav-text">&gt;和&gt;&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-gt"><span class="nav-number">4.3.</span> <span class="nav-text">2&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-gt-amp-1"><span class="nav-number">4.4.</span> <span class="nav-text">2&gt;&amp;1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lt-%E5%92%8C-lt-lt"><span class="nav-number">4.5.</span> <span class="nav-text">&lt;和&lt;&lt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E9%81%93"><span class="nav-number">4.6.</span> <span class="nav-text">管道</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%BE%A4%E7%BB%84%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">用户群组系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo-i-%E5%88%87%E6%8D%A2%E5%88%B0root%E8%BA%AB%E4%BB%BD"><span class="nav-number">5.1.</span> <span class="nav-text">sudo -i:切换到root身份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useradd%EF%BC%9A%E6%B7%BB%E5%8A%A0%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-number">5.2.</span> <span class="nav-text">useradd：添加新用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#passwd%EF%BC%9A%E8%AE%BE%E7%BD%AE-%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81"><span class="nav-number">5.3.</span> <span class="nav-text">passwd：设置&#x2F;修改密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#userdel%EF%BC%9A%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7"><span class="nav-number">5.4.</span> <span class="nav-text">userdel：删除用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#groupadd%EF%BC%9A%E5%88%9B%E5%BB%BA%E7%BE%A4%E7%BB%84"><span class="nav-number">5.5.</span> <span class="nav-text">groupadd：创建群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usermod%EF%BC%9A%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7"><span class="nav-number">5.6.</span> <span class="nav-text">usermod：修改用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#groups%EF%BC%9A%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E6%89%80%E5%B1%9E%E7%BB%84"><span class="nav-number">5.7.</span> <span class="nav-text">groups：查看用户所属组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#groupdel%EF%BC%9A%E5%88%A0%E9%99%A4%E7%BE%A4%E7%BB%84"><span class="nav-number">5.8.</span> <span class="nav-text">groupdel：删除群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chown%EF%BC%9A%E6%94%B9%E5%8F%98%E6%96%87%E4%BB%B6%E7%9A%84%E6%89%80%E6%9C%89%E8%80%85"><span class="nav-number">5.9.</span> <span class="nav-text">chown：改变文件的所有者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chgrp%EF%BC%9A%E6%94%B9%E5%8F%98%E6%96%87%E4%BB%B6%E7%9A%84%E7%BE%A4%E7%BB%84"><span class="nav-number">5.10.</span> <span class="nav-text">chgrp：改变文件的群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chomod%EF%BC%9A%E4%BF%AE%E6%94%B9%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">5.11.</span> <span class="nav-text">chomod：修改访问权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">软件管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E4%BB%93%E5%BA%93"><span class="nav-number">6.1.</span> <span class="nav-text">软件仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wget%EF%BC%9A%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">6.2.</span> <span class="nav-text">wget：下载文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yum%EF%BC%9A%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">6.3.</span> <span class="nav-text">yum：包管理工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%B5%8B"><span class="nav-number">7.</span> <span class="nav-text">进程和系统监测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#w%EF%BC%9A%E9%83%BD%E6%9C%89%E8%B0%81%EF%BC%8C%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">w：都有谁，在做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps%EF%BC%9A%E8%BF%9B%E7%A8%8B%E7%9A%84%E9%9D%99%E6%80%81%E5%88%97%E8%A1%A8"><span class="nav-number">7.2.</span> <span class="nav-text">ps：进程的静态列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top%EF%BC%9A%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8A%A8%E6%80%81%E5%88%97%E8%A1%A8"><span class="nav-number">7.3.</span> <span class="nav-text">top：进程的动态列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#netstat%EF%BC%9A%E7%BD%91%E7%BB%9C%E7%BB%9F%E8%AE%A1"><span class="nav-number">7.4.</span> <span class="nav-text">netstat：网络统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kill%EF%BC%9A%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B"><span class="nav-number">7.5.</span> <span class="nav-text">kill：杀死进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#amp-%EF%BC%9A%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E8%BF%9B%E7%A8%8B"><span class="nav-number">7.6.</span> <span class="nav-text">&amp;：在后台运行进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nohup%EF%BC%9A%E4%BD%BF%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BB%88%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="nav-number">7.7.</span> <span class="nav-text">nohup：使进程与终端分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#killall%EF%BC%9A%E7%BB%93%E6%9D%9F%E5%A4%9A%E4%B8%AA%E8%BF%9B%E7%A8%8B"><span class="nav-number">7.8.</span> <span class="nav-text">killall：结束多个进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#host%EF%BC%9A%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%90%8D%E5%AF%B9%E5%BA%94IP"><span class="nav-number">7.9.</span> <span class="nav-text">host：查看域名对应IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#whois%EF%BC%9A%E4%BA%86%E8%A7%A3%E6%9C%89%E5%85%B3%E5%9F%9F%E5%90%8D%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">7.10.</span> <span class="nav-text">whois：了解有关域名的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#halt%EF%BC%9A%E5%85%B3%E6%9C%BA"><span class="nav-number">7.11.</span> <span class="nav-text">halt：关机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reboot%EF%BC%9A%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.12.</span> <span class="nav-text">reboot：重启系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poweroff%EF%BC%9A%E5%85%B3%E6%9C%BA"><span class="nav-number">7.13.</span> <span class="nav-text">poweroff：关机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%89%80%E6%9C%89%E5%B7%B2%E8%BF%9E%E6%8E%A5%E7%9A%84%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.14.</span> <span class="nav-text">显示所有已连接的网络接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E6%88%96%E5%81%9C%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.15.</span> <span class="nav-text">激活或停用网络接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%88%86%E9%85%8DIPv4%E5%9C%B0%E5%9D%80"><span class="nav-number">7.16.</span> <span class="nav-text">为网络接口分配IPv4地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E7%9A%84IPv4%E5%9C%B0%E5%9D%80"><span class="nav-number">7.17.</span> <span class="nav-text">移除网络接口的IPv4地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E7%9A%84IPv4%E5%9C%B0%E5%9D%80"><span class="nav-number">7.18.</span> <span class="nav-text">显示网络接口的IPv4地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%88%86%E9%85%8DIPv6%E5%9C%B0%E5%9D%80"><span class="nav-number">7.19.</span> <span class="nav-text">为网络接口分配IPv6地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E7%9A%84IPv6%E5%9C%B0%E5%9D%80"><span class="nav-number">7.20.</span> <span class="nav-text">显示网络接口的IPv6地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E7%9A%84IPv6%E5%9C%B0%E5%9D%80"><span class="nav-number">7.21.</span> <span class="nav-text">移除网络设备的IPv6地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E5%8F%98%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E7%9A%84MAC%E5%9C%B0%E5%9D%80"><span class="nav-number">7.22.</span> <span class="nav-text">改变网络接口的MAC地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BIP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="nav-number">7.23.</span> <span class="nav-text">查看IP路由表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%92%8C%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%B7%AF%E7%94%B1"><span class="nav-number">7.24.</span> <span class="nav-text">添加和修改默认路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%92%8C%E7%A7%BB%E9%99%A4%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="nav-number">7.25.</span> <span class="nav-text">添加和移除静态路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF"><span class="nav-number">7.26.</span> <span class="nav-text">查看套接字统计信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BARP%E8%A1%A8"><span class="nav-number">7.27.</span> <span class="nav-text">查看ARP表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%88%96%E5%88%A0%E9%99%A4%E9%9D%99%E6%80%81ARP%E9%A1%B9"><span class="nav-number">7.28.</span> <span class="nav-text">添加或删除静态ARP项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E3%80%81%E5%88%A0%E9%99%A4%E6%88%96%E6%9F%A5%E7%9C%8B%E5%A4%9A%E6%92%AD%E5%9C%B0%E5%9D%80"><span class="nav-number">7.29.</span> <span class="nav-text">添加、删除或查看多播地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1-crontab"><span class="nav-number">8.</span> <span class="nav-text">计划任务(crontab)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">8.1.</span> <span class="nav-text">什么是计划任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%A7%8D%E7%B1%BB-at%E3%80%81cron"><span class="nav-number">8.2.</span> <span class="nav-text">Linux计划任务的种类: at、cron</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%85%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1%E7%9A%84%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">8.3.</span> <span class="nav-text">仅执行一次的计划任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#atd%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">8.3.1.</span> <span class="nav-text">atd的启动方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#at%E7%9A%84%E8%BF%90%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">8.3.2.</span> <span class="nav-text">at的运行方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E6%89%A7%E8%A1%8C%E7%9A%84%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">8.4.</span> <span class="nav-text">循环执行的计划任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">8.4.1.</span> <span class="nav-text">用户的设置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="nav-number">9.</span> <span class="nav-text">压缩与解压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">9.1.</span> <span class="nav-text">文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">9.2.</span> <span class="nav-text">Linux系统常见压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gzip"><span class="nav-number">9.2.1.</span> <span class="nav-text">gzip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bzip2"><span class="nav-number">9.2.2.</span> <span class="nav-text">bzip2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xz"><span class="nav-number">9.2.3.</span> <span class="nav-text">xz</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%91%BD%E4%BB%A4"><span class="nav-number">9.3.</span> <span class="nav-text">打包命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tar"><span class="nav-number">9.3.1.</span> <span class="nav-text">tar</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E4%B8%8ETarball"><span class="nav-number">10.</span> <span class="nav-text">源代码与Tarball</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmake%E4%B8%8Econfigure"><span class="nav-number">10.1.</span> <span class="nav-text">什么是make与configure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFTarball%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="nav-number">10.2.</span> <span class="nav-text">什么是Tarball的软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tarball%E5%AE%89%E8%A3%85%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="nav-number">10.3.</span> <span class="nav-text">Tarball安装的基本步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tarball%E5%AE%89%E8%A3%85%E5%BB%BA%E8%AE%AE"><span class="nav-number">10.4.</span> <span class="nav-text">Tarball安装建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">11.</span> <span class="nav-text">vim编辑器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="yrain"
+      src="/images/y.JPG">
+  <p class="site-author-name" itemprop="name">yrain</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yrain</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
